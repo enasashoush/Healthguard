@@ -1,0 +1,23 @@
+.blog
+{
+    background: rgba(5, 63, 39, 0.807) url(../../image/about.jpeg);
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.button-1
+{
+    top: 230;
+    left: 140;
+}
+.icon-footer
+{
+    transition: all 0.5s ease-in-out ;
+}
+
+.icon-footer:hover
+{
+    background-color: #8dc73f;
+    color: white !important;
+}
