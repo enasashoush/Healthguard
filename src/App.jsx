@@ -25,6 +25,8 @@ import ForgetPassword from './components/ForgetPassword/ForgetPass'
 import NotFound from './components/notFound/notfound'
 import ResetPassword from './components/ForgetPassword/resetPass'
 import BookForm from './components/NusreBooking/BookForm';
+import AllOrders from './components/AllOrder/AllOrder';
+import Payment from './components/Payment/Payment';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,8 @@ const router = createBrowserRouter([
       { path: 'nurseBooking', element: <NurseBooking /> },
       { path: "forgot-password", element: <ForgetPassword /> },
       { path: "resetPassword", element: <ResetPassword /> },
+      {path:"allOrders",element:<AllOrders/>},
+      {path:"payment",element:<Payment/>},
       { path: '*', element: <NotFound /> },
       { path: "bookForm", element: <BookForm /> },
 
