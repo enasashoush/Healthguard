@@ -14,7 +14,7 @@ import Register from './components/Register/Register'
 import ProductDetails from './components/Product Details/ProductDetails';
 import CategoryDetails from './components/CategoryDetails/CategoryDetails'
 import Categories from './components/Categories/Categories'
-import {  CartContextProvider } from './context/cartContext';
+import { CartContextProvider } from './context/cartContext';
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/authContext'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
@@ -37,19 +37,19 @@ const router = createBrowserRouter([
       { path: 'productDetails/:id/:category', element: <ProductDetails /> },
       { path: 'categories', element: <Categories /> },
       { path: 'categoryDetails/:id/:category', element: <CategoryDetails /> },
-      { path: 'wishlist', element: <Wishlist /> }, 
+      { path: 'wishlist', element: <Wishlist /> },
       { path: 'account', element: <Account /> },
       { path: 'about', element: <About /> },
       { path: 'cart', element: <Cart /> },
       { path: 'nursing', element: <Nursing /> },
       { path: 'nurseInfo', element: <NurseInfo /> },
       { path: 'nurseBooking', element: <NurseBooking /> },
-      {path:"forgot-password",element:<ForgetPassword />},
-      {path:"resetPassword",element:<ResetPassword />},
-      { path: '*', element:<NotFound /> },
-      {path:"bookForm",element:<BookForm />},
+      { path: "forgot-password", element: <ForgetPassword /> },
+      { path: "resetPassword", element: <ResetPassword /> },
+      { path: '*', element: <NotFound /> },
+      { path: "bookForm", element: <BookForm /> },
 
-    
+
     ]
   }
 
@@ -63,18 +63,19 @@ export default class App extends Component {
     return <>
       <QueryClientProvider client={queryClient}>
         <CartContextProvider>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
         </CartContextProvider>
-        <Toaster/>
+        <Toaster />
       </QueryClientProvider>
       <Offline>
-    <div className="bg-dark position-fixed text-white bottom-0 start-0 p-3 rounded-3">
-      Ooops.... You Are Offline
-    </div>
-  </Offline>
-    </>}
+        <div className="bg-dark position-fixed text-white bottom-0 start-0 p-3 rounded-3">
+          Ooops.... You Are Offline
+        </div>
+      </Offline>
+    </>
   }
+}
 
 

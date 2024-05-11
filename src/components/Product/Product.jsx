@@ -8,6 +8,7 @@ import { CartContext } from '../../context/cartContext';
 import toast from 'react-hot-toast';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart as SolidHeart } from 'react-icons/fa';
+// import { API_BASE_URL } from '../../config';
 
 export default function Product() {
     const { addProduct, addProductToWishList, deleteItemFromWish,wishListStatus,setWishListStatus } = useContext(CartContext)
@@ -50,6 +51,8 @@ export default function Product() {
     }
     //get product from api 
     function getAllProducts() {
+
+        // `${API_BASE_URL}/`
 
         return axios.get('https://ecommerce.routemisr.com/api/v1/products')
 
