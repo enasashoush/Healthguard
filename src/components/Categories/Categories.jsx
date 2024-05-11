@@ -4,60 +4,72 @@ import { Puff } from 'react-loader-spinner';
 import './categories.css'
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-
+import { API_BASE_URL } from "../../config";
 
 export default function Categories() {
-
-    function getAllCategories() {
-        return axios.get('https://ecommerce.routemisr.com/api/v1/categories')
+    async function getAllCategories() {
+        try {
+            console.log("Fetching categories...");
+            const response = await axios.get(`${API_BASE_URL}/api/Products/categories`);
+            console.log("Response data:", response.data);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+            throw new Error("Error fetching categories");
+        }
     }
 
-    const { isLoading, data } = useQuery('allCategories', getAllCategories)
-    console.log(data);
+    const { isLoading, data } = useQuery('allCategories', getAllCategories);
+
     if (isLoading) {
-        return <div className="vh-100 d-flex justify-content-center align-items-center">
-            <Puff
-                visible={true}
-                height="80"
-                width="80"
-                color="#0F969C"
-                ariaLabel="puff-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />
-        </div>
+        return (
+            <div className="vh-100 d-flex justify-content-center align-items-center">
+                <Puff
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#0F969C"
+                    ariaLabel="puff-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                />
+            </div>
+        );
     }
 
+    if (!data) {
+        return (
+            <div>Error fetching categories. Please try again later.</div>
+        );
+    }
 
+    return (
+        <>
+            <Helmet>
+                <title>Categories</title>
+            </Helmet>
 
-    return <>
-
-        <Helmet>
-            <title>Categories</title>
-        </Helmet>
-
-        <div className=" container mt-5 pt-5 ">
-            <div className="row  g-4">
-                {data?.data.data.map(function (product, idx) {
-                   return <div key={idx} className="col-lg-4">
-                       <Link className='text-decoration-none' to={`/categoryDetails/${product._id}/${product.name}`}>
-                       <div className="card  cat-card">
-                            <div className="cat-card-image">
-                            {/* src={product.image} alt={product.name} */}
-                                <img style={{ height: '300px' }} className="w-100" src={require('../../image/healthguard logo.jpeg')} alt="" />
-                                <div className="overlay">
-                                    <div className="overlay-text">
-                                    {/* {product.name} */}
-                                        <h3>category name</h3>
+            <div className="container mt-5 pt-5">
+                <div className="row g-4">
+                    {data.map((category, idx) => (
+                        <div key={idx} className="col-lg-4">
+                            <Link className='text-decoration-none' to={`/categoryDetails/${category.id}/${category.name}`}>
+                                <div className="card cat-card">
+                                    <div className="cat-card-image">
+                                        {/* src={product.image} alt={product.name} */}
+                                        <img style={{ height: '300px' }} className="w-100" src={require('../../image/healthguard logo.jpeg')} alt="" />
+                                        <div className="overlay">
+                                            <div className="overlay-text">
+                                                <h3>{category.name}</h3>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div></Link>
-                    </div>
-                })}
+                            </Link>
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
-
-
-    </>
+        </>
+    );
 }

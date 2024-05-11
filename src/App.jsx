@@ -17,7 +17,7 @@ import Categories from './components/Categories/Categories'
 import { CartContextProvider } from './context/cartContext';
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/authContext'
-import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
+// import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { Offline } from 'react-detect-offline'
 import NurseInfo from './components/NursingInfo/NursingInfo';
 import NurseBooking from './components/NusreBooking/NurseBooking';
@@ -31,7 +31,7 @@ import Payment from './components/Payment/Payment';
 const router = createBrowserRouter([
   {
     path: '', element: <Layout />, children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Login /> },
       { path: 'home', element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
