@@ -28,18 +28,7 @@ code {
   color: #8dc73f;
 }
 
-/* produuct transtion in product page */
-.product {
-  transform: translate(0);
-  transition: all 0.3s ease-in-out;
-  border-radius: 5px;
-}
 
-.product:hover {
-
-  box-shadow: 3px 3px 10px 2px #0359214b;
-  transform: translateZ(20px);
-}
 
 /* navbar transtion when scroll down */
 .navbar {

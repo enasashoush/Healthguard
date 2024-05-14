@@ -8,6 +8,7 @@ import { CartContext } from '../../context/cartContext';
 import toast from 'react-hot-toast';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart as SolidHeart } from 'react-icons/fa';
+import { API_BASE_URL } from '../../config';
 
 export default function ProductDetails() {
     const { addProduct, addProductToWishList, deleteItemFromWish, wishListStatus, setWishListStatus } = useContext(CartContext)
@@ -57,7 +58,8 @@ export default function ProductDetails() {
     const { id } = useParams()
     //get product by id from api 
     function getProductDetails() {
-        return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
+        return axios.get(`${API_BASE_URL}/api/Products/${id}`)
+        
     }
 
     const { data, isLoading } = useQuery("productDetails", getProductDetails)
@@ -78,7 +80,7 @@ export default function ProductDetails() {
 
     return <>
         <Helmet>
-            <title>{data.data.data.title}</title>
+            <title>{data.data.name}</title>
         </Helmet>
 
         <style>{`
@@ -91,18 +93,14 @@ export default function ProductDetails() {
         <div className="container-fluid mt-5 p-5 col-lg-10 bg-light boreder rounded">
             <div className="row d-felx align-items-center  ">
                 <div className="col-lg-6 col-12">
-                    {/* {data.data.data.imageCover} */}
-                    <img className="w-75" src={require('../../image/healthguard logo.jpeg')} alt={data.data.data.title} />
+                    <img className="w-75" src={data.data.pictureUrl} alt={data.data.name} />
                 </div>
 
                 <div className="col-lg-6 col-12">
-                    {/* {data.data.data.title} */}
-                    <h3>Product name</h3>
-                    {/* {data.data.data.description} */}
-                    <p>description</p>
+                    <h3>{data.data.name} </h3>
+                    <p>{data.data.description}</p>
                     <div className='d-flex justify-content-between align-items-center'>
-                        {/* {data.data.data.category.name} */}
-                        <h5 className='text-main py-2'>category name</h5>
+                        <h5 className='text-main py-2'> {data.data.category} </h5>
                         <Link><i
 
                         >{wishListStatus[id] ? (
@@ -120,10 +118,8 @@ export default function ProductDetails() {
                         )}</i></Link>
                     </div>
                     <div className='d-flex justify-content-between'>
-                        {/* {data.data.data.price} EGP */}
-                        <p className='logo'>price</p>
-                        {/* {data.data.data.ratingsAverage} */}
-                        <span> rate <i className="fa-solid fa-star text-warning"></i></span>
+                        <p className='logo'>{data.data.price} </p>
+                        <span> {data.data.rate} <i className="fa-solid fa-star text-warning"></i></span>
                     </div>
                     <button onClick={() => addProductToCart(data.data.data.id)} className='btn btn-outline-primary w-100 py-2 mt-5'>
                         {cartLooder ? <FallingLines

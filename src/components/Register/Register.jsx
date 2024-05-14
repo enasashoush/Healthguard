@@ -1,151 +1,155 @@
-import axios from 'axios'
-import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import axios from 'axios';
+import { useFormik } from 'formik';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { FallingLines } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../config';
 
 export default function Register() {
-
-  const [eerMsg, setEerMsg] = useState(null)
-  const [success, setSuccess] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
+  const [eerMsg, setEerMsg] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const [selectedArea, setSelectedArea] = useState('');
-  //to can select area 
+
   const handleAreaChange = (e) => {
     setSelectedArea(e.target.value);
   };
-  //user array
+
   let user = {
-    name: "",
+    displayName: "",
     email: "",
+    phoneNumber: "",
     password: "",
     rePassword: "",
-    phone: "",
     areas: ""
   }
-  // List of areas
+
   const areas = ['Cairo', 'Port Said', 'Alexandria'];
-  // funcation taht send data and api 
+
   async function sendData(values) {
-    console.log(values)
-    setEerMsg(null)
-    setIsLoading(true)
+    setEerMsg(null);
+    setIsLoading(true);
     try {
-      const { data } = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup", values)
-      console.log(data)
-      if (data.message === "success") {
-        setSuccess("Account has been created")
-        setTimeout(function () {
-          navigate("/login")
-        }, 1000)
+      const { data } = await axios.post(`${API_BASE_URL}/api/Account/register`, values);
+      if (data ) {
+        setSuccess("Account has been created");
+        setTimeout(function () { 
+          navigate("/login");
+        }, 1000);
       }
     } catch (err) {
-      console.log("error", err.response.data.message)
-      setEerMsg(err.response.data.message)
-
+      if (err.response.status === 400 && err.response.data.errors) {
+        setEerMsg(err.response.data.errors[0]); // Assuming the error message is a string
+      } else {
+        console.error("Error:", err);
+      }
     }
-    setIsLoading(false)
-
-
+    setIsLoading(false);
   }
 
-  // handel form with formik
   const formikObj = useFormik({
     initialValues: user,
     onSubmit: sendData,
     validate: function (values) {
-      setEerMsg(null)
+      setEerMsg(null);
       const errors = {};
-      if (values.name.length < 4 || values.name.length > 10) {
-        errors.name = "Name must be at least 4 character at most 10 charactar"
+      
+      // Validate displayName
+      if (!values.displayName || values.displayName.length < 4 || values.displayName.length > 10) {
+        errors.displayName = "Name must be between 4 and 10 characters";
       }
-      if (values.email.includes("@") === false || values.email.includes(".") === false) {
-        errors.email = "Email is invalide"
+
+      // Validate email
+      if (!values.email || !values.email.includes("@") || !values.email.includes(".")) {
+        errors.email = "Invalid email";
       }
-      if (!values.phone.match(/^(02)?01[0125][0-9]{8}$/)) {
-        errors.phone = "phone is invalide"
+
+      // Validate phoneNumber
+      if (!values.phoneNumber || !values.phoneNumber.match(/^(02)?01[0125][0-9]{8}$/)) {
+        errors.phoneNumber = "Invalid phone number";
       }
-      if (values.password.length < 6 || values.password.length > 12) {
-        errors.password = "password must be at least 6 character at most 12 charactar"
+
+      // Validate password
+      if (!values.password || values.password.length < 6 || values.password.length > 12) {
+        errors.password = "Password must have Lowercase , Uppercase , Sepical character and Numbers";
       }
-      if (values.rePassword !== values.password) {
-        errors.rePassword = "Confirm Password not match with Password"
+
+      // Validate rePassword
+      if (!values.rePassword || values.rePassword !== values.password) {
+        errors.rePassword = "Passwords do not match";
       }
-      return errors
+
+      return errors;
     }
   });
 
-
-
-
-
-
-  return <>
-    <Helmet>
-      <title>Registration</title>
-    </Helmet>
-    <style>{`
+  return (
+    <>
+      <Helmet>
+        <title>Registration</title>
+      </Helmet>
+      <style>{`
         body {
           background:linear-gradient(to top, #072E33, #009578) 
         }
       `}</style>
-    <div className='container my-3'>
-      <div className='  w-50 mx-auto py-5 px-5 '>
-        <div className="reg-form">
-          <div className="w-75 m-auto py-5 px-5}">
-            {eerMsg ? <div className="alert alert-danger" >{eerMsg}</div> : ''}
-            {success ? <div className="alert alert-info" >{success}</div> : ''}
-            <h2 className='text-center'> SIGN UP</h2>
-            <form onSubmit={formikObj.handleSubmit}>
-              <label htmlFor='name'>Name :</label>
-              <input onBlur={formikObj.handleBlur} value={formikObj.values.name} onChange={formikObj.handleChange} id='name' type='text' placeholder='name' className="form-control reg-pp reg-inputt  mb-3"></input>
-              {formikObj.errors.name && formikObj.touched.name ? <div className='alert alert-info'>{formikObj.errors.name}</div> : ''}
+      <div className='container my-3'>
+        <div className='w-50 mx-auto py-5 px-5'>
+          <div className="reg-form">
+            <div className="w-75 m-auto py-5 px-5">
+              {eerMsg && <div className="alert alert-danger">{eerMsg}</div>}
+              {success && <div className="alert alert-info">{success}</div>}
+              <h2 className='text-center'>SIGN UP</h2>
+              <form onSubmit={formikObj.handleSubmit}>
+                <label htmlFor='displayName'>Name :</label>
+                <input onBlur={formikObj.handleBlur} value={formikObj.values.displayName} onChange={formikObj.handleChange} id='displayName' type='text' placeholder='Name' className="form-control reg-pp reg-inputt  mb-3"></input>
+                {formikObj.errors.displayName && formikObj.touched.displayName && <div className='alert alert-info'>{formikObj.errors.displayName}</div>}
 
-              <label htmlFor='phone'>Phone :</label>
-              <input onBlur={formikObj.handleBlur} value={formikObj.values.phone} onChange={formikObj.handleChange} id='phone' type='tel' placeholder='phone' className='reg-pp reg-inputt form-control mb-3'></input>
-              {formikObj.errors.phone && formikObj.touched.phone ? <div className='alert alert-info'>{formikObj.errors.phone}</div> : ''}
+                <label htmlFor='phoneNumber'>Phone :</label>
+                <input onBlur={formikObj.handleBlur} value={formikObj.values.phoneNumber} onChange={formikObj.handleChange} id='phoneNumber' type='tel' placeholder='Phone' className='reg-pp reg-inputt form-control mb-3'></input>
+                {formikObj.errors.phoneNumber && formikObj.touched.phoneNumber && <div className='alert alert-info'>{formikObj.errors.phoneNumber}</div>}
 
+                <label htmlFor='email'>Email :</label>
+                <input onBlur={formikObj.handleBlur} value={formikObj.values.email} onChange={formikObj.handleChange} id='email' type='email' placeholder='Email' className='reg-pp reg-inputt form-control mb-3'></input>
+                {formikObj.errors.email && formikObj.touched.email && <div className='alert alert-info'>{formikObj.errors.email}</div>}
 
-              <label htmlFor='email'>Email :</label>
-              <input onBlur={formikObj.handleBlur} value={formikObj.values.email} onChange={formikObj.handleChange} id='email' type='email' placeholder='email' className='reg-pp reg-inputt form-control mb-3'></input>
-              {formikObj.errors.email && formikObj.touched.email ? <div className='alert alert-info'>{formikObj.errors.email}</div> : ''}
+                <label htmlFor='password'>Password :</label>
+                <input onBlur={formikObj.handleBlur} value={formikObj.values.password} onChange={formikObj.handleChange} id='password' type='password' placeholder='Password' className='reg-pp reg-inputt form-control mb-3'></input>
+                {formikObj.errors.password && formikObj.touched.password && <div className='alert alert-info'>{formikObj.errors.password}</div>}
 
-              <label htmlFor='password'>Password :</label>
-              <input onBlur={formikObj.handleBlur} value={formikObj.values.password} onChange={formikObj.handleChange} id='password' type='password' placeholder='password' className='reg-pp reg-inputt form-control mb-3'></input>
-              {formikObj.errors.password && formikObj.touched.password ? <div className='alert alert-info'>{formikObj.errors.password}</div> : ''}
+                <label htmlFor='rePassword'>Confirm Password :</label>
+                <input onBlur={formikObj.handleBlur} value={formikObj.values.rePassword} onChange={formikObj.handleChange} id='rePassword' type='password' placeholder='Confirm password' className='reg-pp reg-inputt form-control mb-3'></input>
+                {formikObj.errors.rePassword && formikObj.touched.rePassword && <div className='alert alert-info'>{formikObj.errors.rePassword}</div>}
 
-              <label htmlFor='rePassword'>Confirm Password :</label>
-              <input onBlur={formikObj.handleBlur} value={formikObj.values.rePassword} onChange={formikObj.handleChange} id='rePassword' type='password' placeholder='confirm password' className='reg-pp reg-inputt form-control mb-3'></input>
-              {formikObj.errors.rePassword && formikObj.touched.rePassword ? <div className='alert alert-info'>{formikObj.errors.rePassword}</div> : ''}
-
-              <label htmlFor='area'>Area:</label>
-              <select
-                id='area'
-                value={selectedArea}
-                onChange={handleAreaChange}
-                className='reg-select reg-inputt form-control mb-3'
-              >
-                <option value=''>Select Area</option>
-                {areas.map((area, index) => (
-                  <option key={index} value={area}>
-                    {area}
-                  </option>
-                ))}
-              </select>
-              <button disabled={formikObj.isValid === false || formikObj.dirty === false} type='submit' className='btn btn-dark '>
-                {isLoading ? <FallingLines
-                  color="#072E33"
-                  width="50"
-                  visible={true}
-                  ariaLabel='falling-lines-loading'
-                /> : 'Register'}
-              </button>
-            </form>
+                <label htmlFor='area'>Area:</label>
+                <select
+                  id='area'
+                  value={selectedArea}
+                  onChange={handleAreaChange}
+                  className='reg-select reg-inputt form-control mb-3'
+                >
+                  <option value=''>Select Area</option>
+                  {areas.map((area, index) => (
+                    <option key={index} value={area}>
+                      {area}
+                    </option>
+                  ))}
+                </select>
+                <button disabled={!formikObj.dirty || !formikObj.isValid || isLoading} type='submit' className='btn btn-dark '>
+                  {isLoading ? <FallingLines
+                    color="#072E33"
+                    width="50"
+                    visible={true}
+                    ariaLabel='falling-lines-loading'
+                  /> : 'Register'}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </>
+    </>
+  );
 }

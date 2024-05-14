@@ -3,10 +3,11 @@ import axios from 'axios';
 import { Puff } from 'react-loader-spinner';
 import './categories.css'
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
 
 export default function Categories() {
+
     async function getAllCategories() {
         try {
             console.log("Fetching categories...");
@@ -51,18 +52,17 @@ export default function Categories() {
 
             <div className="container mt-5 pt-5">
                 <div className="row g-4">
-                    {data.map((category, idx) => (
+                    {data?.map((category, idx) => (
                         <div key={idx} className="col-lg-4">
-                            <Link className='text-decoration-none' to={`/categoryDetails/${category.id}/${category.name}`}>
+                            <Link className='text-decoration-none' to={`/categoryDetails/${category.id}`}>
                                 <div className="card cat-card">
                                     <div className="cat-card-image">
-                                        {/* src={product.image} alt={product.name} */}
-                                        <img style={{ height: '300px' }} className="w-100" src={require('../../image/healthguard logo.jpeg')} alt="" />
+                                        <img style={{ height: '300px' }} className="w-100 img-fluid" src={category.pictureUrl} alt="" />
                                         <div className="overlay">
                                             <div className="overlay-text">
                                                 <h3>{category.name}</h3>
                                             </div>
-                                        </div>
+                                        </div>  
                                     </div>
                                 </div>
                             </Link>

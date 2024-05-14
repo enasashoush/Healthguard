@@ -9,11 +9,10 @@ import toast from 'react-hot-toast';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart as SolidHeart } from 'react-icons/fa';
 import { API_BASE_URL } from '../../config';
+import './product.css' 
 
 export default function Product() {
     const { addProduct, addProductToWishList, deleteItemFromWish, wishListStatus, setWishListStatus } = useContext(CartContext)
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState('');
     
     async function addProductToCart(id) {
@@ -55,13 +54,7 @@ export default function Product() {
     
     const getAllProducts = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/Products`, {
-                params: {
-                    pageSize: 10, // Example: Set a default page size
-                    pageIndex: 1, // Example: Set a default page index
-                    // Search: search // Uncomment this line if you want to include search functionality
-                }
-            });
+            const response = await axios.get(`${API_BASE_URL}/api/Products`);
             console.log( "respone",response);
             return response.data;
         } catch (error) {
@@ -111,7 +104,7 @@ export default function Product() {
         </div>
         
         <div className="row row-cols-2 row-cols-sm-3  row-cols-md-4 row-cols-lg-5 g-3 container-fluid mt-5">
-            {data?.map(function (product, idx) {
+            {data?.data?.map(function (product, idx) {
                 return <div key={idx} className="col">
                     <div className="card h-100 product">
                         <Link className='text-decoration-none' to={`/productDetails/${product.id}/${product.category}`}>
@@ -145,14 +138,6 @@ export default function Product() {
                     </div>
                 </div>
             })}
-        </div>
-        
-        <div className="pagination-controls">
-            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))}>Previous</button>
-            <button onClick={() => setCurrentPage(currentPage - 1)}>Page {currentPage - 1}</button>
-            <button onClick={() => setCurrentPage(currentPage)} className="active">Page {currentPage}</button>
-            <button onClick={() => setCurrentPage(currentPage + 1)}>Page {currentPage + 1}</button>
-            <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
         </div>
     </>
 }
