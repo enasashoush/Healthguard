@@ -15,11 +15,11 @@ export default function ProductDetails() {
     const [cartLooder, setCartLooder] = useState(false)
     const [activeTab, setActiveTab] = useState('description');
     //  fucation that call add product to cart funcation from cart context 
-    async function addProductToCart(id) {
+    async function addProductToCart(productId) {
         setCartLooder(true)
-        const res = await addProduct(id)
-        if (res && res.status === "success") {
-            toast.success(res.message, {
+        const res = await addProduct(productId)
+        if (res ) {
+            toast.success("Prduct Added successfully", {
                 duration: 2000
             })
         } else {
@@ -121,7 +121,7 @@ export default function ProductDetails() {
                         <p className='logo'>{data.data.price} </p>
                         <span> {data.data.rate} <i className="fa-solid fa-star text-warning"></i></span>
                     </div>
-                    <button onClick={() => addProductToCart(data.data.data.id)} className='btn btn-outline-primary w-100 py-2 mt-5'>
+                    <button onClick={() => addProductToCart(id)} className='btn btn-outline-primary w-100 py-2 mt-5'>
                         {cartLooder ? <FallingLines
                             color="#fff"
                             width="30"

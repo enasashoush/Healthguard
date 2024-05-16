@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { CartContext } from '../../context/cartContext'
-import {  Puff } from 'react-loader-spinner';
+import { Puff } from 'react-loader-spinner';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -10,24 +10,24 @@ export default function Cart() {
     const { cartProduct, clearAllProduct, updateItem, totalCartProduct, numOfCartItem, deleteItem, setCartProduct } = useContext(CartContext)
 
     //increment element from  cart 
-    async function incremunt(id, count) {
-        const res = await updateItem(id, count)
-        if (res.status === "success") {
+    async function incremunt(itemId,newQuantity) {
+        const res = await updateItem(itemId,newQuantity)
+        if (res) {
             toast.success("Product count incremented")
         } else {
             toast.error("Error in updeted Element")
         }
     }
     //decrement element from cart 
-    async function decrement(id, count) {
-        const newCount = count - 1;
+    async function decrement(itemId,newQuantity) {
+        const newCount = newQuantity - 1;
         if (newCount === 0) {
-            const updatedProducts = cartProduct.filter(item => item.product.id !== id);
+            const updatedProducts = cartProduct.filter(item => item.product.itemId !== itemId);
             setCartProduct(updatedProducts);
-            delElement(id)
+            delElement(itemId)
         } else {
-            const res = await updateItem(id, newCount);
-            if (res.status === "success") {
+            const res = await updateItem(itemId, newQuantity);
+            if (res) {
                 toast.success("Product count decremented");
             } else {
                 toast.error("Error in updating product");
@@ -36,16 +36,20 @@ export default function Cart() {
     }
 
     //delete element from cart 
-    async function delElement(id) {
-        const res = await deleteItem(id)
-        if (res.status === "success") {
-            toast.success("Product Deleted")
-        } else {
-            toast.error("Error in Delete Element")
+    async function delElement(itemId) {
+        try {
+            const res = await deleteItem(itemId);
+            if (res) {
+                toast.success("Product Deleted");
+            } else {
+                toast.error("Error in Delete Element");
+            }
+        } catch (error) {
+            console.error("Error deleting item:", error);
+            toast.error("Error in Delete Element");
         }
-
     }
-
+    
     if (cartProduct === null) {
         return <>
             <div className="vh-100 d-flex justify-content-center align-items-center">
@@ -105,21 +109,20 @@ export default function Cart() {
                 {cartProduct.map(function (product, idx) {
                     return <div key={idx} className="row align-items-center border-bottom border-3 my-5 pb-3">
                         <div className="col-md-2">
-                        {/* src={product.product.imageCover} */}
-                            <img src={require('../../image/healthguard logo.jpeg')} className='w-100' alt=''></img>
+                            <img  className='w-100' src={product.picUrl}  alt={product.productName}/>
+                            <img src="" alt="" />
+
                         </div>
                         <div className="col-md-8">
-                        {/* {product.product.title.split(" ").slice(0, 2).join(" ")} */}
-                            <h3>product name</h3>
-                            {/* {product.price} */}
-                            <h3> price</h3>
-                            <button onClick={() => { delElement(product.product.id) }} className='btn btn-outline-danger '>Remove</button>
+                            <h3> {product.productName.split(" ").slice(0, 2).join(" ")}</h3>
+                            <h3>{product.price}</h3>
+                            <button onClick={() => { delElement(product.id) }} className='btn btn-outline-danger '>Remove</button>
                         </div>
                         <div className="col-md-2">
                             <div className="d-flex align-items-center">
-                                <button onClick={() => { incremunt(product.product.id, product.count + 1) }} className='btn btn-outline-success '>+</button>
-                                <span className='mx-2'>{product.count}</span>
-                                <button onClick={() => { decrement(product.product.id, product.count) }} className='btn btn-outline-success '>-</button>
+                                <button onClick={() => { incremunt(product.id, product.newQuantity + 1) }} className='btn btn-outline-success '>+</button>
+                                <span className='mx-2'>{product.quanntity}</span>
+                                <button onClick={() => { decrement(product.id, product.newQuantity) }} className='btn btn-outline-success '>-</button>
                             </div>
                         </div>
                     </div>

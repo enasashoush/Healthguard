@@ -24,8 +24,8 @@ export default function WishList() {
   async function addProductToCart(id) {
 
     const res = await addProduct(id)
-    if (res.status === "success") {
-      toast.success(res.message, {
+    if (res) {
+      toast.success("Prduct Added successfully", {
         duration: 2000
       })
     } else {

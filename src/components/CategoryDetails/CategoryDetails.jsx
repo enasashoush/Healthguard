@@ -19,8 +19,8 @@ export default function CategoryDetails() {
     //funcation that call allproduct in cart from cart context
     async function addProductToCart(id) {
         const res = await addProduct(id)
-        if (res.status === "success") {
-            toast.success(res.message, {
+        if (res) {
+            toast.success("Prduct Added successfully", {
                 duration: 2000
             })
         } else {

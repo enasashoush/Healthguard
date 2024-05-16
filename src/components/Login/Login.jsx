@@ -53,8 +53,8 @@ export default function Login() {
       if (!values.email || !values.email.includes("@") || !values.email.includes(".")) {
         errors.email = "Invalid email";
       }
-      if (!values.password || values.password.length < 6 || values.password.length > 12) {
-        errors.password = "Password must be between 6 and 12 characters";
+      if (!values.password || values.password.length < 6 || values.password.length > 20) {
+        errors.password = "Password must be between 6 and 20 characters";
       }
       return errors;
     }

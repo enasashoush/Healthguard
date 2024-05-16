@@ -15,16 +15,21 @@ export default function Product() {
     const { addProduct, addProductToWishList, deleteItemFromWish, wishListStatus, setWishListStatus } = useContext(CartContext)
     const [search, setSearch] = useState('');
     
-    async function addProductToCart(id) {
-        const res = await addProduct(id)
-        if (res.status === "success") {
-            toast.success(res.message, {
-                duration: 2000
-            })
-        } else {
-            toast.error("Error Happened")
+    async function addProductToCart(productId) {
+        try {
+            const res = await addProduct(productId);
+            console.log("res", res);
+            if (res ) {
+                toast.success("Product Added Successeded");
+            } else {
+                toast.error("Error occurred while adding the product to the cart");
+            }
+        } catch (error) {
+            console.log("Error:", error);
+            toast.error("Error occurred while adding the product to the cart");
         }
     }
+    
     
     async function ProductWishList(id) {
         if (!id) {

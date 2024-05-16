@@ -3,8 +3,9 @@ import  axios  from 'axios';
 import { CartContext } from '../../context/cartContext';
 import { toast } from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
+import { API_BASE_URL } from '../../config';
 
-export default function Payment() {
+export default function Payment(Basketid) {
   const{cartId,setCartProduct,setTotalCartProduct,setNumOfCartItem}=  useContext(CartContext)
    async function confirmPayment() {
      const phoneValue=   document.querySelector("#phone").value;
@@ -18,7 +19,7 @@ export default function Payment() {
         }
        }
        try{
-        const{data}=await axios.post(`https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,shippingAddress,
+        const{data}=await axios.post(`${API_BASE_URL}/api/Payments/${Basketid}`,shippingAddress,
         {
             headers:{token:localStorage.getItem("tkn")}
         })
@@ -49,10 +50,10 @@ export default function Payment() {
            }
           }
           try{
-           const{data}=await axios.post(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}`,shippingAddress,
+           const{data}=await axios.post(`${API_BASE_URL}/api/Payments/webhook`,shippingAddress,
            {
                headers:{token:localStorage.getItem("tkn")},
-               params:{url:"http://localhost:3000"}
+               params:{url:"https://localhost:3000"}
            })
             window.open(data.session.url,"_blank");
           } 
