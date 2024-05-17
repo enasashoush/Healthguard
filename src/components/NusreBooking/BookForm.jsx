@@ -94,6 +94,12 @@ export default function BookForm() {
           <input onBlur={formikObj.handleBlur} value={formikObj.values.email} onChange={formikObj.handleChange} id='email' type='email' placeholder='email' className='reg-pp reg-inputt form-control mb-3'></input>
           {formikObj.errors.email && formikObj.touched.email ? <div className='alert alert-info'>{formikObj.errors.email}</div> : ''}
         </div>
+        <div>
+          <label htmlFor='phoneNumber'>Phone :</label>
+          <input onBlur={formikObj.handleBlur} value={formikObj.values.phoneNumber} onChange={formikObj.handleChange} id='phoneNumber' type='tel' placeholder='Phone' className='reg-pp reg-inputt form-control mb-3'></input>
+          {formikObj.errors.phoneNumber && formikObj.touched.phoneNumber && <div className='alert alert-info'>{formikObj.errors.phoneNumber}</div>}
+
+        </div>
         <div class="mb-3">
           <label htmlFor='address'>Address :</label>
           <textarea onBlur={formikObj.handleBlur} value={formikObj.values.name} onChange={formikObj.handleChange} id='textarea' type='text' placeholder='Address' className="form-control reg-pp reg-inputt  mb-3"></textarea>
@@ -114,7 +120,7 @@ export default function BookForm() {
           ))}
         </select>
         <div className="d-flex justify-content-around">
-          <button disabled={formikObj.isValid === false || formikObj.dirty === false} type='submit' className='btn btn-dark '>
+          <button disabled={formikObj.isValid === false || formikObj.dirty === false} type='submit' className='btn btn-primary '>
             {isLoading ? <FallingLines
               color="#072E33"
               width="50"
@@ -122,7 +128,7 @@ export default function BookForm() {
               ariaLabel='falling-lines-loading'
             /> : 'Book'}
           </button>
-          <button type="button" class="btn btn-secondary">Cancel</button>
+          <button type="button" class="btn btn-danger">Cancel</button>
         </div>
       </form>
     </div>

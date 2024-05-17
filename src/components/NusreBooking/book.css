@@ -1,0 +1,7 @@
+.doctor-cards {
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+    background-color: white;
+  }
