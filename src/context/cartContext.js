@@ -113,13 +113,17 @@ async function deleteItem(itemId) {
         return savedStatus ? JSON.parse(savedStatus) : {};
       });
     //add prduct to wish list   
-    async function addProductToWishList(productWishId) {
+    async function addProductToWishList(productId) {
         try{
-         const{data}=await axios.post("https://ecommerce.routemisr.com/api/v1/wishlist",{
-             "productId": productWishId
-         },{
-             headers:{token:localStorage.getItem("tkn")}
-         })
+            const response = await axios.post(
+                `${API_BASE_URL}/api/WishList/add-to-wishlist`,
+                {
+                    "productId":productId
+                },
+                {
+                    headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
+                })
+                const data = response.data; 
          userWishList()
          return data;
         } 
@@ -130,10 +134,10 @@ async function deleteItem(itemId) {
      //api of wish list
      async function userWishList() {
         try{
-            const{data}=await axios.get("https://ecommerce.routemisr.com/api/v1/wishlist",{
-                headers:{token:localStorage.getItem("tkn")}
+            const { data } = await axios.get(`${API_BASE_URL}/api/WishList`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
             })
-            setWishListProduct(data.data)
+            setWishListProduct(data.wishList.items)
            } 
            catch(e){
             console.log("error",e)
@@ -141,12 +145,14 @@ async function deleteItem(itemId) {
         
     }
     //delete from wish list
-    async function deleteItemFromWish(productDElId) {
+    async function deleteItemFromWish(itemId) {
         try{
-            const{data}=await axios.delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productDElId}`,{
-                headers:{token:localStorage.getItem("tkn")}
-            })
-            setWishListProduct(data.data)
+            const response = await axios.delete(`${API_BASE_URL}/api/WishList/delete-from-wishlsit/${itemId}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
+            });
+    
+            const data = response.data;
+            setWishListProduct(data.wishList.items)
             userWishList()
         return data;
            } 

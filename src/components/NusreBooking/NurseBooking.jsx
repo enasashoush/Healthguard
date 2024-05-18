@@ -2,11 +2,12 @@
 import { Helmet } from 'react-helmet';
 import './book.css'
 import { FallingLines } from 'react-loader-spinner';
+// import { useState } from 'react';
 
 export default function NurseBooking() {
-    const [isLoading, setIsLoading] = useState(false)
+    // const [isLoading, setIsLoading] = useState(false)
 
-    setIsLoading(true)
+    // setIsLoading(true)
 
 
 
@@ -82,7 +83,7 @@ export default function NurseBooking() {
                     </div>
                     <div>
                         <label htmlFor="">Gender:</label> <br />
-                        <input type="radio" name="gender" className='m-5' value="M" />
+                        <input type="radio" name="gender" value="M" />
                         <label className='text-muted' > male</label>
                         <input type="radio" name="gender" value="f" />
                         <label className='text-muted' > female</label>
@@ -93,14 +94,15 @@ export default function NurseBooking() {
                     <label htmlFor="">Symptoms:</label>
                     <input type="text" id='name' placeholder='write about his health situation' className="form-control mb-3" />
                 </div>
-
-
-                <button className='btn btn-success' disabled={formikObj.isValid === false || formikObj.dirty === false} type='submit'> {isLoading ? <FallingLines
+{/* 
+                disabled={formikObj.isValid === false || formikObj.dirty === false} */}
+                {/* {isLoading ? <FallingLines
                     color="#072E33"
                     width="50"
                     visible={true}
                     ariaLabel='falling-lines-loading'
-                /> : 'send to the nurse'}</button>
+                /> : 'send to the nurse'} */}
+                <button className='btn btn-success'  type='submit'> send to the nurse</button>
 
             </div>
         </div>

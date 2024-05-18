@@ -40,8 +40,12 @@ export default function ProductDetails() {
             } else {
                 res = await addProductToWishList(id);
             }
-            if (res.status === "success") {
-                toast.success(res.message, { duration: 2000 });
+            if (res) {
+                if (wishListStatus[id]) {
+                    toast.success("Product Removed from Wishlist Successfully", { duration: 2000 });
+                } else {
+                    toast.success("Product Added to Wishlist Successfully", { duration: 2000 });
+                }
                 setWishListStatus(prevStatus => ({ ...prevStatus, [id]: !prevStatus[id] }));
                 localStorage.setItem('wishlistStatus', JSON.stringify({ ...wishListStatus, [id]: !wishListStatus[id] }));
             } else {

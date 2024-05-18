@@ -10,7 +10,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart as SolidHeart } from 'react-icons/fa';
 import { API_BASE_URL } from '../../config';
 import './product.css' 
-
+ 
 export default function Product() {
     const { addProduct, addProductToWishList, deleteItemFromWish, wishListStatus, setWishListStatus } = useContext(CartContext)
     const [search, setSearch] = useState('');
@@ -43,11 +43,18 @@ export default function Product() {
             } else {
                 res = await addProductToWishList(id);
             }
-
-            if (res.status === "success") {
-                toast.success(res.message, { duration: 2000 });
-                setWishListStatus(prevStatus => ({ ...prevStatus, [id]: !prevStatus[id] }));
-                localStorage.setItem('wishlistStatus', JSON.stringify({ ...wishListStatus, [id]: !wishListStatus[id] }));
+    
+            if (res) {
+                if (wishListStatus[id]) {
+                    toast.success("Product Removed from Wishlist Successfully", { duration: 2000 });
+                } else {
+                    toast.success("Product Added to Wishlist Successfully", { duration: 2000 });
+                }
+                setWishListStatus(prevStatus => {
+                    const updatedStatus = { ...prevStatus, [id]: !prevStatus[id] };
+                    localStorage.setItem('wishlistStatus', JSON.stringify(updatedStatus));
+                    return updatedStatus;
+                });
             } else {
                 toast.error("Error occurred");
             }
@@ -56,6 +63,7 @@ export default function Product() {
             toast.error("An error occurred");
         }
     }
+    
     
     const getAllProducts = async () => {
         try {

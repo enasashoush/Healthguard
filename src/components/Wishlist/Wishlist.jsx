@@ -8,7 +8,7 @@ export default function WishList() {
   // funcation that call funcation delelte from wish list context 
   async function delElement(id) {
     const res = await deleteItemFromWish(id);
-    if (res.status === "success") {
+    if (res) {
       toast.success("Product Deleted");
       // Update wishListStatus state to remove the deleted product id
       setWishListStatus(prevStatus => {
@@ -20,7 +20,7 @@ export default function WishList() {
       toast.error("Error in Delete Element");
     }
   }
-
+ 
   async function addProductToCart(id) {
 
     const res = await addProduct(id)
@@ -52,19 +52,16 @@ export default function WishList() {
             {wishListProduct.map(function (product, idx) {
               return <div key={idx} className="row align-items-center border-bottom border-3 my-5 pb-3">
                 <div className="col-md-2">
-                {/* src={product.imageCover} */}
-                  <img src={require('../../image/healthguard logo.jpeg')}  className='w-100' alt='cover'></img>
+                  <img src={product.picUrl}  className='w-100' alt='cover'/>
                 </div>
                 <div className="col-md-8">
-                {/* {product.title} */}
-                  <h3>product name</h3>
-                  {/* {product.price}  */}
-                  <h3>price</h3>
-                  <button onClick={() => { delElement(product._id) }} className='btn btn-outline-danger mt-2 '>Remove</button>
+                  <h3>{product.productName}</h3>
+                  <h3>{product.price}</h3>
+                  <button onClick={() =>  delElement(product.id) } className='btn btn-outline-danger mt-2 '>Remove</button>
                 </div>
                 <div className="col-md-2">
                   <div className="d-flex align-items-center">
-                    <button onClick={() => addProductToCart(product._id)} className='btn btn-outline-success '>Add to Cart</button>
+                    <button onClick={() => addProductToCart(product.id)} className='btn btn-outline-success '>Add to Cart</button>
                   </div>
                 </div>
               </div>
