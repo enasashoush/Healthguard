@@ -1,43 +1,41 @@
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Puff } from 'react-loader-spinner';
+import { API_BASE_URL } from '../../config';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
 
 export default function NurseInfo() {
     const [activeTab, setActiveTab] = useState('reviews');
+    const { id } = useParams()
+
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    const [nurseInfo, setNurseInfo] = useState(null);
+    function getNurseInfo() {
+        return axios.get(`${API_BASE_URL}/api/Nurse/${id}`)
 
-    useEffect(() => {
-        // Simulating fetching user info from an API
-        setTimeout(() => {
-            setNurseInfo({
-                name: "Enas",
-                location: 'nasr city',
-                specialization: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ratione tenetur aspernatur esse laborum harum repellendus voluptatum necessitatibus ullam dolores?",
-                fees: "$200",
-                image: "https://via.placeholder.com/150", // Example image URL
-                // Additional info can be added here
-            });
-        }, 1000);
-    }, []);
+    }
 
-    if (!nurseInfo) {
-        return<div className="vh-100 d-flex justify-content-center align-items-center">
-        <Puff
-            visible={true}
-            height="80"
-            width="80"
-            color="#0F969C"
-            ariaLabel="puff-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-        />
-    </div>
+    const { data, isLoading } = useQuery("nurseInfo", getNurseInfo)
+    //loading screen 
+    if (isLoading) {
+        return <div className="vh-100 d-flex justify-content-center align-items-center">
+            <Puff
+                visible={true}
+                height="80"
+                width="80"
+                color="#0F969C"
+                ariaLabel="puff-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+            />
+        </div>
     }
 
     const handleBookNow = () => {
@@ -46,7 +44,7 @@ export default function NurseInfo() {
 
     return <>
         <Helmet>
-            <title>Nurse Info</title>
+            <title>{data.nurses.nurseName}</title>
         </Helmet>
         <style>{`
         body {
@@ -55,17 +53,17 @@ export default function NurseInfo() {
           padding: 0; 
         }
       `}</style>
-        <div className="container  bg-light border rounded"  style={{ marginTop: "100px" }} >
+        <div className="container  bg-light border rounded" style={{ marginTop: "100px" }} >
             <div className="row">
                 <div className="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
-                    <img className=" w-50 w-md-25 mt-3 border rounded-circle" src={nurseInfo.image} alt="Nurse Image" />
+                    <img className=" w-50 w-md-25 mt-3 border rounded-circle" src={data.nurses.picUrl} alt="Nurse Image" />
                 </div>
                 <div className="col-sm-12 col-md-6 p-5">
                     <h3 className="card-title text-main py-2">Nurse Information</h3>
-                    <p className="card-text"><strong className='logo'>Name:</strong> {nurseInfo.name} </p>
-                    <p className="card-text"><strong className='logo'>Specialization:</strong> {nurseInfo.specialization} </p>
-                    <p className="card-text"><strong className='logo'>Location:</strong> {nurseInfo.location} </p>
-                    <p className="card-text"><strong className='logo'>Fees:</strong> {nurseInfo.fees} </p>
+                    <p className="card-text"><strong className='logo'>Name:</strong> {data.nurses.nurseName} </p>
+                    <p className="card-text"><strong className='logo'>Specialization:</strong> {data.nurses.description} </p>
+                    <p className="card-text"><strong className='logo'>Location:</strong> nasr city</p>
+                    <p className="card-text"><strong className='logo'>Fees:</strong> {data.nurses.price} </p>
                 </div>
             </div>
             <div className="row">

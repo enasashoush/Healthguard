@@ -44,7 +44,7 @@ const router = createBrowserRouter([
       { path: 'about', element: <About /> },
       { path: 'cart', element: <Cart /> },
       { path: 'nursing', element: <Nursing /> },
-      { path: 'nurseInfo', element: <NurseInfo /> },
+      { path: 'nurseInfo/:id', element: <NurseInfo /> },
       { path: 'nurseBooking', element: <NurseBooking /> },
       { path: "forgot-password", element: <ForgetPassword /> },
       { path: "resetPassword", element: <ResetPassword /> },
