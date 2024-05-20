@@ -44,7 +44,7 @@ export default function NurseInfo() {
 
     return <>
         <Helmet>
-            <title>{data.nurses.nurseName}</title>
+            <title>{data.data.nurseName}</title>
         </Helmet>
         <style>{`
         body {
@@ -56,14 +56,14 @@ export default function NurseInfo() {
         <div className="container  bg-light border rounded" style={{ marginTop: "100px" }} >
             <div className="row">
                 <div className="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
-                    <img className=" w-50 w-md-25 mt-3 border rounded-circle" src={data.nurses.picUrl} alt="Nurse Image" />
+                    <img className=" w-50 w-md-25 mt-3 border rounded-circle" src={data.data.picUrl} alt="Nurse Image" />
                 </div>
                 <div className="col-sm-12 col-md-6 p-5">
                     <h3 className="card-title text-main py-2">Nurse Information</h3>
-                    <p className="card-text"><strong className='logo'>Name:</strong> {data.nurses.nurseName} </p>
-                    <p className="card-text"><strong className='logo'>Specialization:</strong> {data.nurses.description} </p>
+                    <p className="card-text"><strong className='logo'>Name:</strong> {data.data.nurseName} </p>
+                    <p className="card-text"><strong className='logo'>Specialization:</strong> {data.data.description} </p>
                     <p className="card-text"><strong className='logo'>Location:</strong> nasr city</p>
-                    <p className="card-text"><strong className='logo'>Fees:</strong> {data.nurses.price} </p>
+                    <p className="card-text"><strong className='logo'>Fees:</strong> {data.data.price} </p>
                 </div>
             </div>
             <div className="row">
