@@ -4,6 +4,8 @@ import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { FallingLines } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
 
 
 export default function BookForm() {
@@ -13,11 +15,16 @@ export default function BookForm() {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const [availableTime, setAvailableTime] = useState('');
+  const { id: nurseId } = useParams();
+
+
 
   const handleAvailableTime = (e) => {
     setAvailableTime(e.target.value);
   };
 
+
+  
   let user = {
     name: "",
     email: "",

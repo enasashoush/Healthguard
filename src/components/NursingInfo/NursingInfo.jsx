@@ -17,6 +17,7 @@ export default function NurseInfo() {
         setActiveTab(tab);
     };
 
+
     function getNurseInfo() {
         return axios.get(`${API_BASE_URL}/api/Nurse/${id}`)
 
@@ -39,8 +40,9 @@ export default function NurseInfo() {
     }
 
     const handleBookNow = () => {
-        window.location.href = '/bookForm'; // Navigate to '/booking' path
+        window.location.href = `/bookForm/${id}`; 
     };
+
 
     return <>
         <Helmet>

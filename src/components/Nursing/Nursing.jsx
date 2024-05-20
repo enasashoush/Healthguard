@@ -1,5 +1,5 @@
 import './nursing.css'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { API_BASE_URL } from '../../config';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import { Puff } from 'react-loader-spinner';
 import { useQuery } from 'react-query';
 
 export default function Nursing() {
+    const { id } = useParams()
+
 
 
     const getAllNurses = async () => {
@@ -22,7 +24,7 @@ export default function Nursing() {
 
 
     const handleBookNow = () => {
-        window.location.href = '/bookForm'; // Navigate to '/booking' path
+        window.location.href = `/bookForm/${id}`; 
     };
 
     const { isLoading, data } = useQuery('allProducts', getAllNurses)

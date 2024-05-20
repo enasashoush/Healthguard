@@ -51,7 +51,7 @@ const router = createBrowserRouter([
       {path:"allOrders",element:<AllOrders/>},
       {path:"payment",element:<Payment/>},
       { path: '*', element: <NotFound /> },
-      { path: "bookForm", element: <BookForm /> },
+      { path: "bookForm/:id", element: <BookForm /> },
 
 
     ]
