@@ -107,16 +107,18 @@ import { CartContext } from '../../context/cartContext';
 import { toast } from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
 import { API_BASE_URL } from '../../config';
+import { useParams } from 'react-router-dom';
 
 export default function Payment() {
   const { cartId, setCartProduct, setTotalCartProduct, setNumOfCartItem } = useContext(CartContext);
   const [deliveryMethods, setDeliveryMethods] = useState([]);
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
+  const {id}=useParams()
 
   useEffect(() => {
     async function fetchDeliveryMethods() {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/delivery-methods`);
+        const response = await axios.get(`${API_BASE_URL}/api/Orders/DeliveryMethods`);
         setDeliveryMethods(response.data);
       } catch (error) {
         console.error('Error fetching delivery methods:', error);
@@ -185,10 +187,17 @@ export default function Payment() {
         <form>
           <div className="form-group">
             <label htmlFor="delivery-method">Delivery Method:</label>
-            <select id="delivery-method" className="form-control mb-3 login-inputt" value={selectedDeliveryMethod} onChange={(e) => setSelectedDeliveryMethod(e.target.value)}>
+            <select
+              id="delivery-method"
+              className="form-control mb-3 login-inputt"
+              value={selectedDeliveryMethod}
+              onChange={(e) => setSelectedDeliveryMethod(e.target.value)}
+            >
               <option value="">Select a delivery method</option>
               {deliveryMethods.map(method => (
-                <option key={method.id} value={method.id}>{method.name}</option>
+                <option key={method.id} value={method.id}>
+                  {method.shortName} - {method.description} - ${method.cost} - {method.deliveryTime}
+                </option>
               ))}
             </select>
           </div>
@@ -219,5 +228,3 @@ export default function Payment() {
     </>
   );
 }
-
-

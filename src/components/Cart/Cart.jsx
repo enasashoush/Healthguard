@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 
 export default function Cart() {
 
-    const { cartProduct, clearAllProduct, updateItem, totalCartProduct, numOfCartItem, deleteItem, setCartProduct } = useContext(CartContext)
+    const { cartProduct, clearAllProduct, cartId,updateItem, totalCartProduct, numOfCartItem, deleteItem, setCartProduct } = useContext(CartContext)
 
     //increment element from  cart 
     async function incremunt(itemId, currentQuantity) {
@@ -103,7 +103,7 @@ export default function Cart() {
                 <div className="row">
                     <div className='d-flex justify-content-between'>
                         <h1 className='text-main'>Cart Shop</h1>
-                        <Link to={"/Payment"} className='btn fs-4 text-white' style={{ backgroundColor: ' #009578' }}>Check Out</Link>
+                        <Link to={`/Payment/${cartId}`} className='btn fs-4 text-white' style={{ backgroundColor: ' #009578' }}>Check Out</Link>
 
                     </div>
                     <div className="d-flex justify-content-between mt-3">

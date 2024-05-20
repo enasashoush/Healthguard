@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       { path: "forgot-password", element: <ForgetPassword /> },
       { path: "resetPassword", element: <ResetPassword /> },
       {path:"allOrders",element:<AllOrders/>},
-      {path:"payment",element:<Payment/>},
+      {path:"payment/:id",element:<Payment/>},
       { path: '*', element: <NotFound /> },
       { path: "bookForm/:id", element: <BookForm /> },
 
