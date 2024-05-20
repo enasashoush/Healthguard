@@ -101,7 +101,7 @@
 //     </form>
 //     </div></>
 // }
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { CartContext } from '../../context/cartContext';
 import { toast } from 'react-hot-toast';
@@ -110,28 +110,47 @@ import { API_BASE_URL } from '../../config';
 
 export default function Payment() {
   const { cartId, setCartProduct, setTotalCartProduct, setNumOfCartItem } = useContext(CartContext);
+  const [deliveryMethods, setDeliveryMethods] = useState([]);
+  const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
+
+  useEffect(() => {
+    async function fetchDeliveryMethods() {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/delivery-methods`);
+        setDeliveryMethods(response.data);
+      } catch (error) {
+        console.error('Error fetching delivery methods:', error);
+      }
+    }
+    fetchDeliveryMethods();
+  }, []);
 
   async function confirmPayment() {
     const phoneValue = document.querySelector("#phone").value;
     const cityValue = document.querySelector("#city").value;
     const detailsValue = document.querySelector("#details").value;
-    console.log("1")
+    const fullNameValue = document.querySelector("#full-name").value;
+    const streetValue = document.querySelector("#street-address").value;
+
+    const [fName, ...lNameParts] = fullNameValue.split(' ');
+    const lName = lNameParts.join(' ');
+
     const shippingAddress = {
-      "fName": "", // Include first name if available
-      "lName": "", // Include last name if available
-      "street": detailsValue,
-      "city": cityValue,
-      "country": cityValue // Assuming country is the same as city
+      fName: fName,
+      lName: lName,
+      street: streetValue,
+      city: cityValue,
+      country: cityValue, // Adjust as necessary
     };
 
     try {
       const { data } = await axios.post(`${API_BASE_URL}/api/Orders/${cartId}`, {
-        "deliveryMethodId": 0, // Assuming deliveryMethodId for cash payment is 0
-        "shipToAddress": shippingAddress
+        deliveryMethodId: selectedDeliveryMethod,
+        shipToAddress: shippingAddress,
       }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` } 
+        headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` },
       });
-console.log("2")
+
       if (data.status === "success") {
         toast.success("Order is Successfully");
         setCartProduct([]);
@@ -145,6 +164,7 @@ console.log("2")
       return data;
     } catch (e) {
       console.error("Error:", e);
+      toast.error("Error occurred");
     }
   }
 
@@ -163,16 +183,41 @@ console.log("2")
       `}</style>
       <div className="container pt-5 mt-5">
         <form>
-          <label htmlFor=''>Phone:</label>
-          <input type='tel' id='phone' placeholder='Phone Number' className='mb-3 form-control login-inputt' />
-          <label htmlFor=''>City:</label>
-          <input type='text' id='city' placeholder='City' className='mb-3 form-control login-inputt' />
-          <label htmlFor=''>Details:</label>
-          <textarea type='text' id='details' placeholder='Details' className='mb-3 form-control login-inputt' />
-          <button type='button' onClick={()=>confirmPayment()} className='btn btn-dark'>Confirm Cash Payment</button>
+          <div className="form-group">
+            <label htmlFor="delivery-method">Delivery Method:</label>
+            <select id="delivery-method" className="form-control mb-3 login-inputt" value={selectedDeliveryMethod} onChange={(e) => setSelectedDeliveryMethod(e.target.value)}>
+              <option value="">Select a delivery method</option>
+              {deliveryMethods.map(method => (
+                <option key={method.id} value={method.id}>{method.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="full-name">Full Name:</label>
+            <input type="text" id="full-name" placeholder="Full Name" className="form-control mb-3 login-inputt" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="street-address">Street Address:</label>
+            <input type="text" id="street-address" placeholder="Street Address" className="form-control mb-3 login-inputt" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="phone">Phone:</label>
+            <input type="tel" id="phone" placeholder="Phone Number" className="form-control mb-3 login-inputt" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="city">City:</label>
+            <input type="text" id="city" placeholder="City" className="form-control mb-3 login-inputt" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="details">Details:</label>
+            <textarea id="details" placeholder="Details" className="form-control mb-3 login-inputt"></textarea>
+          </div>
+          <button type="button" onClick={confirmPayment} className="btn btn-dark">Confirm Cash Payment</button>
+          <button type="button" className="mx-4 btn btn-dark">Confirm Online Payment</button>
         </form>
       </div>
     </>
   );
 }
+
 
