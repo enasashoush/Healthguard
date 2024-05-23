@@ -1,7 +1,8 @@
-
 import { Helmet } from 'react-helmet';
 import './book.css'
-import { FallingLines } from 'react-loader-spinner';
+// import { FallingLines } from 'react-loader-spinner';
+// import { useContext } from 'react';
+// import { AuthContext } from '../../context/authContext';
 // import { useState } from 'react';
 
 export default function NurseBooking() {
@@ -9,6 +10,11 @@ export default function NurseBooking() {
 
     // setIsLoading(true)
 
+    // const { userInfo } = useContext(AuthContext);
+
+    // // Access the user information as needed
+    // // For example:
+    // const userName = userInfo ? userInfo.name : "";
 
 
     return <>
