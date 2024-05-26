@@ -6,6 +6,7 @@ import { FallingLines } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
+import toast from "react-hot-toast";
 
 export default function BookForm() {
   const [errMsg, setErrMsg] = useState(null);
@@ -26,9 +27,10 @@ export default function BookForm() {
           headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
         });
       if (data && data.message) {
+        toast.success("Your Reservation Is Sent Successfully ");
         setSuccess(data.message);
         setTimeout(() => {
-          navigate("/nurseBooking");
+          navigate(`/home`);
         }, 1000);
       }
       console.log("response", data);

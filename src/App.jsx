@@ -20,7 +20,6 @@ import { AuthProvider } from './context/authContext'
 // import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { Offline } from 'react-detect-offline'
 import NurseInfo from './components/NursingInfo/NursingInfo';
-import NurseBooking from './components/NusreBooking/NurseBooking';
 import ForgetPassword from './components/ForgetPassword/ForgetPass'
 import NotFound from './components/notFound/notfound'
 import ResetPassword from './components/ForgetPassword/resetPass'
@@ -45,7 +44,6 @@ const router = createBrowserRouter([
       { path: 'cart', element: <Cart /> },
       { path: 'nursing', element: <Nursing /> },
       { path: 'nurseInfo/:id', element: <NurseInfo /> },
-      { path: 'nurseBooking', element: <NurseBooking /> },
       { path: "forgot-password", element: <ForgetPassword /> },
       { path: "resetPassword", element: <ResetPassword /> },
       {path:"allOrders",element:<AllOrders/>},

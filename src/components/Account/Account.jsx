@@ -1,37 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { FaEdit, FaPlus, FaShoppingBag, FaCalendar } from 'react-icons/fa'; // Import required icons
+import { FaEdit, FaPlus, FaShoppingBag, FaCalendar } from 'react-icons/fa';
 import { Puff } from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import avatar from '../../image/avatar.jpeg'; // Import the default image
+import { API_BASE_URL } from '../../config';
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
 const Profile = () => {
-    const [userInfo, setUserInfo] = useState(null);
+    const [name, setName] = useState(null);
+    const [phone, setPhone] = useState(null);
+    const [email, setEmail] = useState(null);
 
     useEffect(() => {
-        // Simulating fetching user info from an API
-        setTimeout(() => {
-            setUserInfo({
-                name: "John Doe",
-                email: "john@example.com",
-                phone: "+1234567890",
-                image: "https://via.placeholder.com/150", // Example image URL
-                // Additional info can be added here
-            });
-        }, 1000);
+        const decoded = jwtDecode(localStorage.getItem("tkn"));
+        console.log(decoded);
+        setName(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+        setPhone(decoded.phoneNumber);
+        setEmail(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']);
     }, []);
 
-    if (!userInfo) {
-        return<div className="vh-100 d-flex justify-content-center align-items-center">
-        <Puff
-            visible={true}
-            height="80"
-            width="80"
-            color="#0F969C"
-            ariaLabel="puff-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-        />
-    </div>
+    async function fetchLatestOrder() {
+        try {
+            const { data } = await axios.get(`${API_BASE_URL}/api/Orders/user-orders`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
+            });
+            // Assuming data is an array of orders, sort by date and get the latest one
+            const latestOrder = data.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))[0];
+            return latestOrder;
+        } catch (error) {
+            console.log("error", error);
+            return null;
+        }
+    }
+
+    const { isLoading, data: latestOrder } = useQuery('userOrder', fetchLatestOrder);
+
+    if (isLoading) {
+        return (
+            <div className="d-flex vh-100 justify-content-center align-items-center">
+                <Puff
+                    visible={true}
+                    height={80}
+                    width={80}
+                    color="#0F969C"
+                    ariaLabel="puff-loading"
+                />
+            </div>
+        );
     }
 
     return (
@@ -46,66 +64,63 @@ const Profile = () => {
           padding: 0; 
         }
       `}</style>
-            <div className="container " style={{ marginTop: "100px" }}>
-                <div className="row" >
+            <div className="container" style={{ marginTop: "100px" }}>
+                <div className="row">
                     {/* Personal Info */}
                     <div className="col-md-4">
                         <div className="card position-relative">
                             <div className="card-body text-center p-5" style={{ height: "400px" }}>
                                 <Link to="/updatedUser">
-                                <FaEdit size={20}  className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
+                                    <FaEdit size={20} className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
                                 </Link>
-                                <img src={userInfo.image} alt="Profile" className="img-fluid rounded-circle mb-3" />
-                                <h4 className="card-title text-main">{userInfo.name}</h4>
-                                <p className="card-text">{userInfo.email}</p>
-                                <p className="card-text">{userInfo.phone}</p>
+                                <img src={avatar} alt="Profile" className="img-fluid rounded-circle mb-3" />
+                                <h4 className="card-title text-main">{name}</h4>
+                                <p className="card-text">{email}</p>
+                                <p className="card-text">{phone}</p>
                             </div>
-
                         </div>
                     </div>
                     {/* Other Divs */}
                     <div className="col-md-8">
-                        {/* Shipping Info */}
-                        <div className="card mb-4">
-                            <div className="card-body">
-                                <Link to="/updateAddress">
-                                <FaPlus size={20}  className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
-                                </Link>
-                                <h4 className="card-title mb-4 fw-bold text-center logo">Shipping Information</h4>
-                                {/* Home Address Content */}
-                                <p><span className="fs-4">Home Address :</span> Example Address 1</p>
-                                {/* Another Address Content */}
-                                <p><span className="fs-4">Address #2 :</span> Example Address 2</p>
-                            </div>
-                        </div>
                         {/* My Orders */}
                         <div className="card mb-4">
-                            <div className="card-body">
-                                <Link to="/allOrders">
-                                <FaShoppingBag size={20} className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
-                                </Link>
-                                <h4 className="card-title mb-4 text-center fw-bold logo">My Orders</h4>
-                                {/* Orders Content */}
-                                <p><span className="fs-4">Product Name :</span> Product Name</p>
-                                <p><span className="fs-4">Address Of Order :</span> Order Address</p>
-                                <p><span className="fs-4">Count & Price :</span> 1 x $10.00</p>
-                                <p><span className="fs-4">Total Count :</span> 1</p>
-                                <p><span className="fs-4">Total Order :</span> $10.00</p>
-                                <p><span className="fs-4">Day of Order :</span> MM/DD/YYYY</p>
+                            <div className="card-body d-flex justify-content-between align-items-center">
+                                <div>
+                                    <Link to="/allOrders">
+                                        <FaShoppingBag size={20} className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
+                                    </Link>
+                                    <h4 className="card-title mb-4 text-center fw-bold logo">My Orders</h4>
+                                    {latestOrder ? (
+                                        <>
+                                            <p><span className="fs-4">Product Name:</span> {latestOrder.items && latestOrder.items.length > 0 ? latestOrder.items[0].productName : 'N/A'}</p>
+                                            <p><span className="fs-4">Address Of Order:</span> {latestOrder.shippingAddress ? latestOrder.shippingAddress.street : 'N/A'}</p>
+                                            <p><span className="fs-4">Total Count:</span> {latestOrder.items ? latestOrder.items.reduce((total, item) => total + item.quantity, 0) : 0}</p>
+                                            <p><span className="fs-4">Total Order:</span> ${latestOrder.totalOrderPrice || 0}</p>
+                                            <p><span className="fs-4">Day of Order:</span> {latestOrder.orderDate ? new Date(latestOrder.orderDate).toLocaleDateString() : 'N/A'}</p>
+                                        </>
+                                    ) : (
+                                        <p>No orders found.</p>
+                                    )}
+
+                                </div>
+                                {latestOrder && latestOrder.items && latestOrder.items.length > 0 && latestOrder.items[0].pictureUrl ? (
+                                    <img src={latestOrder.items[0].pictureUrl} alt="Order Image" className="img-fluid rounded-circle" style={{ width: '100px', height: '100px' }} />
+                                ) : (
+                                    <img src={avatar} alt="Default Image" className="img-fluid rounded-circle" style={{ width: '100px', height: '100px' }} />
+                                )}
                             </div>
                         </div>
                         {/* Nurse Reservations */}
                         <div className="card mb-4">
                             <div className="card-body">
                                 <Link to="/allReservation">
-                                <FaCalendar size={20}  className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
+                                    <FaCalendar size={20} className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
                                 </Link>
                                 <h4 className="card-title mb-4 text-center fw-bold logo">Nurse Reservations </h4>
-                                {/* Reservations Content */}
-                                <p><span className="fs-4">Nurse Name :</span> Example Nurse</p>
-                                <p><span className="fs-4">Appointment Address :</span> Example Address</p>
-                                <p><span className="fs-4">Price of Visit :</span> $50.00</p>
-                                <p><span className="fs-4">Day of Visit :</span> MM/DD/YYYY</p>
+                                <p><span className="fs-4">Nurse Name:</span> Example Nurse</p>
+                                <p><span className="fs-4">Appointment Address:</span> Example Address</p>
+                                <p><span className="fs-4">Price of Visit:</span> $50.00</p>
+                                <p><span className="fs-4">Day of Visit:</span> MM/DD/YYYY</p>
                             </div>
                         </div>
                     </div>

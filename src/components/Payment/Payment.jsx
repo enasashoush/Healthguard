@@ -110,16 +110,17 @@ import { API_BASE_URL } from '../../config';
 import { useParams } from 'react-router-dom';
 
 export default function Payment() {
-  const { cartId, setCartProduct, setTotalCartProduct, setNumOfCartItem } = useContext(CartContext);
+  const { cartId, setCartProduct, setTotalCartProduct, numOfCartItem, setNumOfCartItem } = useContext(CartContext);
   const [deliveryMethods, setDeliveryMethods] = useState([]);
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
-  const {id}=useParams()
+
 
   useEffect(() => {
     async function fetchDeliveryMethods() {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/Orders/DeliveryMethods`);
         setDeliveryMethods(response.data);
+        console.log("iio",response);
       } catch (error) {
         console.error('Error fetching delivery methods:', error);
       }
@@ -131,42 +132,37 @@ export default function Payment() {
     const phoneValue = document.querySelector("#phone").value;
     const cityValue = document.querySelector("#city").value;
     const detailsValue = document.querySelector("#details").value;
-    const fullNameValue = document.querySelector("#full-name").value;
+    const fName = document.querySelector("#f-name").value;
+    const lName = document.querySelector("#l-name").value;
     const streetValue = document.querySelector("#street-address").value;
-
-    const [fName, ...lNameParts] = fullNameValue.split(' ');
-    const lName = lNameParts.join(' ');
-
+  
+    // const [fName, lName] = fullNameValue.split(' ');
+  
     const shippingAddress = {
       fName: fName,
       lName: lName,
       street: streetValue,
-      city: cityValue,
-      country: cityValue, // Adjust as necessary
+      city: cityValue
     };
-
+  
     try {
       const { data } = await axios.post(`${API_BASE_URL}/api/Orders/${cartId}`, {
         deliveryMethodId: selectedDeliveryMethod,
-        shipToAddress: shippingAddress,
+        shipToAddress: shippingAddress
       }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
       });
-
-      if (data.status === "success") {
+      if (data) {
         toast.success("Order is Successfully");
         setCartProduct([]);
         setNumOfCartItem(0);
         setTotalCartProduct(0);
-      } else {
-        toast.error("Error occurred");
       }
-
       console.log(data);
       return data;
     } catch (e) {
       console.error("Error:", e);
-      toast.error("Error occurred");
+      toast.error("There are no items in the  cart");
     }
   }
 
@@ -202,8 +198,12 @@ export default function Payment() {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="full-name">Full Name:</label>
-            <input type="text" id="full-name" placeholder="Full Name" className="form-control mb-3 login-inputt" />
+            <label htmlFor="f-name">First Name:</label>
+            <input type="text" id="f-name" placeholder="Full Name" className="form-control mb-3 login-inputt" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="l-name">last Name:</label>
+            <input type="text" id="l-name" placeholder="Full Name" className="form-control mb-3 login-inputt" />
           </div>
           <div className="form-group">
             <label htmlFor="street-address">Street Address:</label>

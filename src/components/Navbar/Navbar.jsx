@@ -80,11 +80,6 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/nurseBooking">
-                                <i class="fa-solid fa-user-nurse text-main"></i>                                
-                                </Link>
-                            </li>
-                            <li className="nav-item">
                                 <Link className="nav-link text-light" to="/cart">
                                     <i className="fa-solid fa-cart-plus pe-3 text-main position-relative">
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">

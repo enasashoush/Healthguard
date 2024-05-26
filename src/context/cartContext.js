@@ -21,7 +21,7 @@ export function CartContextProvider({children}) {
                 headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
             }
         );
-        const data = response.data; 
+        const data = response.data;
         userCart(); 
         return data;
     } catch (e) {

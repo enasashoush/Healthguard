@@ -1,27 +1,27 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Puff } from 'react-loader-spinner';
+import { API_BASE_URL } from '../../config';
+import { useQuery } from 'react-query';
 
 export default function AllOrders() {
-    const [userOrders, setUserOrders] = useState(null);
-
-    useEffect(() => {
-        const decodedToken = jwtDecode(localStorage.getItem("tkn"));
-        userOrder(decodedToken.id);
-    }, []);
-
-    async function userOrder(id) {
+    async function allUserOrder() {
         try {
-            const { data } = await axios.get(`https://ecommerce.routemisr.com/api/v1/orders/user/${id}`);
-            setUserOrders(data);
+            const { data } = await axios.get(`${API_BASE_URL}/api/Orders/user-orders`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
+            });
+            console.log("API response data:", data);
+            return data;
         } catch (error) {
-            console.log("error", error);
+            console.error("Error fetching orders:", error);
+            return [];
         }
     }
 
-    if (userOrders === null) {
+    const { isLoading, data, error } = useQuery('userOrder', allUserOrder);
+
+    if (isLoading) {
         return (
             <div className="d-flex vh-100 justify-content-center align-items-center">
                 <Puff
@@ -31,6 +31,23 @@ export default function AllOrders() {
                     color="#0F969C"
                     ariaLabel="puff-loading"
                 />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="d-flex vh-100 justify-content-center align-items-center">
+                <p>Error loading orders</p>
+            </div>
+        );
+    }
+
+    if (!Array.isArray(data)) {
+        console.error("Expected data to be an array, but got:", data);
+        return (
+            <div className="d-flex vh-100 justify-content-center align-items-center">
+                <p>Unexpected data format</p>
             </div>
         );
     }
@@ -49,7 +66,7 @@ export default function AllOrders() {
                     color: #fff;
                 }
                 .order-container {
-                    background: white
+                    background: white;
                     border-radius: 10px;
                     padding: 20px;
                     margin-bottom: 20px;
@@ -57,6 +74,8 @@ export default function AllOrders() {
                 }
                 .order-image {
                     width: 100%;
+                    height: 200px;
+                    object-fit: cover;
                     border-radius: 5px;
                 }
                 .order-info {
@@ -80,18 +99,18 @@ export default function AllOrders() {
             `}</style>
             <div className="container mt-5 pt-5">
                 <div className="row g-4">
-                    {userOrders.map((order, idx) => (
+                    {data.map((order, idx) => (
                         <div key={idx} className="col-md-6">
                             <div className="order-container rounded-3 p-3">
                                 <div className="container">
                                     <div className="row">
-                                        {order.cartItems?.map((item, indx) => (
+                                        {order.items?.map((item, indx) => (
                                             <div key={indx} className="col-md-4">
-                                                <div key={indx} className=" my-2">
-                                                    <img src={item.product.imageCover} alt="Product" className="order-image" />
+                                                <div className="my-2">
+                                                    <img src={item.pictureUrl} alt="Product" className="order-image" />
                                                     <div className="order-info">
-                                                        <h3>{item.product.title.split(" ").slice(0, 2).join(" ")}</h3>
-                                                        <h5>Count: {item.count}</h5>
+                                                        <h3>{item.productName.split(" ").slice(0, 2).join(" ")}</h3>
+                                                        <h5>Count: {item.quantity}</h5>
                                                         <h5>Price: {item.price}</h5>
                                                     </div>
                                                 </div>
@@ -99,10 +118,10 @@ export default function AllOrders() {
                                         ))}
                                     </div>
                                 </div>
-                                <p className='order'>Order with phone {order.shippingAddress.phone} and with details {order.shippingAddress.details} at {order.shippingAddress.city}</p>
+                                <p className='order'>Order with name {order.shippingAddress.fName} {order.shippingAddress.lName} and with details {order.shippingAddress.street} at {order.shippingAddress.city}</p>
                                 <div className="order-info">
-                                    <h5>Payment Method: {order.paymentMethodType}</h5>
-                                    <h5>Total Order Price: {order.totalOrderPrice}</h5>
+                                    <h5>Delivery Method: {order.deliveryMethod}</h5>
+                                    <h5>Total Order Price: {order.total}</h5>
                                 </div>
                             </div>
                         </div>
