@@ -107,7 +107,7 @@ import { CartContext } from '../../context/cartContext';
 import { toast } from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
 import { API_BASE_URL } from '../../config';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Payment() {
   const { cartId, setCartProduct, setTotalCartProduct, numOfCartItem, setNumOfCartItem } = useContext(CartContext);
@@ -128,43 +128,48 @@ export default function Payment() {
     fetchDeliveryMethods();
   }, []);
 
-  async function confirmPayment() {
-    const phoneValue = document.querySelector("#phone").value;
-    const cityValue = document.querySelector("#city").value;
-    const detailsValue = document.querySelector("#details").value;
-    const fName = document.querySelector("#f-name").value;
-    const lName = document.querySelector("#l-name").value;
-    const streetValue = document.querySelector("#street-address").value;
-  
-    // const [fName, lName] = fullNameValue.split(' ');
-  
-    const shippingAddress = {
-      fName: fName,
-      lName: lName,
-      street: streetValue,
-      city: cityValue
-    };
-  
-    try {
-      const { data } = await axios.post(`${API_BASE_URL}/api/Orders/${cartId}`, {
-        deliveryMethodId: selectedDeliveryMethod,
-        shipToAddress: shippingAddress
-      }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
-      });
-      if (data) {
-        toast.success("Order is Successfully");
-        setCartProduct([]);
-        setNumOfCartItem(0);
-        setTotalCartProduct(0);
-      }
-      console.log(data);
-      return data;
-    } catch (e) {
-      console.error("Error:", e);
-      toast.error("There are no items in the  cart");
+
+  const navigate = useNavigate();
+
+async function confirmPayment() {
+  const phoneValue = document.querySelector("#phone").value;
+  const cityValue = document.querySelector("#city").value;
+  const detailsValue = document.querySelector("#details").value;
+  const fName = document.querySelector("#f-name").value;
+  const lName = document.querySelector("#l-name").value;
+  const streetValue = document.querySelector("#street-address").value;
+ // Using useNavigate instead of useHistory
+
+  const shippingAddress = {
+    fName: fName,
+    lName: lName,
+    street: streetValue,
+    city: cityValue
+  };
+
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/api/Orders/${cartId}`, {
+      deliveryMethodId: selectedDeliveryMethod,
+      shipToAddress: shippingAddress
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
+    });
+    if (data) {
+      toast.success("Order is Successfully");
+      setCartProduct([]);
+      setNumOfCartItem(0);
+      setTotalCartProduct(0);
+      // After successful payment, navigate to the home component
+      navigate('/home');
     }
+    console.log(data);
+    return data;
+  } catch (e) {
+    console.error("Error:", e);
+    toast.error("There are no items in the cart");
   }
+}
+
 
   return (
     <>

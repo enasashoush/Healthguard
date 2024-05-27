@@ -20,7 +20,7 @@ export default function CategoryDetails() {
     async function addProductToCart(id) {
         const res = await addProduct(id)
         if (res) {
-            toast.success("Prduct Added successfully", {
+            toast.success("Product Added successfully", {
                 duration: 2000
             })
         } else {

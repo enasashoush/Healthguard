@@ -19,7 +19,7 @@ export default function ProductDetails() {
         setCartLooder(true)
         const res = await addProduct(productId)
         if (res ) {
-            toast.success("Prduct Added successfully", {
+            toast.success("Product Added successfully", {
                 duration: 2000
             })
         } else {

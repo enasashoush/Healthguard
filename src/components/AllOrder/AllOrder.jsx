@@ -4,8 +4,12 @@ import { Helmet } from 'react-helmet';
 import { Puff } from 'react-loader-spinner';
 import { API_BASE_URL } from '../../config';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function AllOrders() {
+    const navigate = useNavigate();
+
     async function allUserOrder() {
         try {
             const { data } = await axios.get(`${API_BASE_URL}/api/Orders/user-orders`, {
@@ -49,6 +53,34 @@ export default function AllOrders() {
             <div className="d-flex vh-100 justify-content-center align-items-center">
                 <p>Unexpected data format</p>
             </div>
+        );
+    }
+
+    if (data.length === 0) { // Check if data array is empty
+        return (
+            <>
+                <Helmet>
+                    <title>No Reservations</title>
+                </Helmet>
+                <style>{`
+        body {
+          background: linear-gradient(to top, #072E33, #009578); 
+          margin: 0;
+          padding: 0; 
+          height: 100vh; 
+        }
+      `}</style>
+                <div className="vh-100 d-flex justify-content-center align-items-center">
+                    <div className="container">
+                        <div className="row justify-content-center">
+                            <div className="col-md-8 text-center text-white">
+                                <p className="lead">There is no Orders Found .</p>
+                                <button  onClick={() => navigate('/products')} className="btn btn-outline-light mt-3">Go to Product Page</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
         );
     }
 
