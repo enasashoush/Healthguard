@@ -30,10 +30,10 @@ export default function AllReservation() {
             });
             console.log("API response data:", data);
             toast.success("Your Reservation Deleted Successfully ");
+            navigate("/account")
 
             // Refetch the reservation data after successful deletion
             await QueryClient.refetchQueries('userReservation');
-
             return data;
         } catch (error) {
             console.error("Error deleting reservation:", error);
@@ -92,7 +92,7 @@ export default function AllReservation() {
                         <div className="row justify-content-center">
                             <div className="col-md-8 text-center text-white">
                                 <p className="lead">There is no reservation Found .</p>
-                                <button  onClick={() => navigate('/nursing')} className="btn btn-outline-light mt-3">Go to Nurse Page</button>
+                                <button onClick={() => navigate('/nursing')} className="btn btn-outline-light mt-3">Go to Nurse Page</button>
                             </div>
                         </div>
                     </div>

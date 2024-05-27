@@ -28,7 +28,7 @@ export default function HomeSlider() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-        }, 24 * 60 * 60 * 1000);
+        }, 5 * 60 * 60);
 
         return () => {
             clearInterval(interval);

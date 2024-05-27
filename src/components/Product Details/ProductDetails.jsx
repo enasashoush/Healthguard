@@ -18,7 +18,7 @@ export default function ProductDetails() {
     async function addProductToCart(productId) {
         setCartLooder(true)
         const res = await addProduct(productId)
-        if (res ) {
+        if (res) {
             toast.success("Product Added successfully", {
                 duration: 2000
             })
@@ -63,7 +63,7 @@ export default function ProductDetails() {
     //get product by id from api 
     function getProductDetails() {
         return axios.get(`${API_BASE_URL}/api/Products/${id}`)
-        
+
     }
 
     const { data, isLoading } = useQuery("productDetails", getProductDetails)
@@ -135,45 +135,7 @@ export default function ProductDetails() {
                     </button>
                 </div>
 
-                <div>
-                    <ul className="nav nav-underline justify-content-center">
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link logo fw-bold ${activeTab === 'description' ? 'active' : ''}`}
-                                onClick={() => handleTabClick('description')}
-                                href="#"
-                            >
-                                Description
-                            </a>
-                            {activeTab === 'description' && (
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat atque, sit esse, ratione quo laudantium
-                                    odio iusto voluptatibus in cum natus repellat laborum suscipit. Aspernatur quis, maiores reprehenderit
-                                    minima excepturi at atque culpa deleniti harum minus commodi! Natus quo aspernatur maxime facere dicta eius
-                                    nostrum saepe adipisci iure velit, asperiores alias dolorem, vel necessitatibus voluptas et cumque? Magnam,
-                                    quas!
-                                </p>
-                            )}
-                        </li>
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link logo fw-bold ${activeTab === 'reviews' ? 'active' : ''}`}
-                                onClick={() => handleTabClick('reviews')}
-                                href="#"
-                            >
-                                Reviews
-                            </a>
-                            {activeTab === 'reviews' && (
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, dolorum, repellat doloremque
-                                    eveniet quam libero saepe rem aliquid nobis consectetur sit laborum soluta. Autem, laboriosam, quia
-                                    odit veniam sequi beatae eos voluptate dolore eligendi. Quisquam, aperiam, velit culpa fugit
-                                    eveniet ex quod ducimus voluptate autem molestiae temporibus, iusto vero.
-                                </p>
-                            )}
-                        </li>
-                    </ul>
-                </div>
+
             </div>
         </div>
 

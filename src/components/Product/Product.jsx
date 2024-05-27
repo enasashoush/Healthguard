@@ -124,7 +124,7 @@ export default function Product() {
                             <img src={product.pictureUrl} className="card-img-top" alt={product.name} />
                             <div className="card-body">
                                 <h6 className="card-title text-main">{product.category}</h6>
-                                <h5 className="card-title text-dark">{product.name.split(' ').slice(0 - 2).join(' ')}</h5>
+                                <h5 className="card-title text-dark">{product.name.split(' ').slice(0 ,2).join(' ')}</h5>
                             </div>
                             <div className="d-flex justify-content-around">
                                 <p className='logo'>{product.price}</p>

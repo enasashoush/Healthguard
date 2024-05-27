@@ -63,7 +63,7 @@ export default function Nursing() {
                                     <div>
                                         <h3 className="doctor-name text-main">{nurse.nurseName}</h3>
                                         <p className="doctor-location text-dark">
-                                            <i className="fa-solid fa-location-dot logo"></i> Location: Nasr City
+                                        <i className="fa-solid fa-location-dot logo"></i> Hospital: {nurse.hospital.split(',')[0]}
                                         </p>
                                         <p className="doctor-available-time text-dark">
                                             <i className="fa-regular fa-clock logo"></i> Available Time: Monday - Friday, 9:00 AM - 5:00 PM
