@@ -11,7 +11,7 @@ import { useQuery } from 'react-query';
 
 const Profile = () => {
     const [name, setName] = useState(null);
-    const [phone, setPhone] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState(null);
     const [email, setEmail] = useState(null);
 
     useEffect(() => {
@@ -20,8 +20,9 @@ const Profile = () => {
             const decoded = jwtDecode(token);
             console.log(decoded);
             setName(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
-            setPhone(decoded.phoneNumber);
+            setPhoneNumber(decoded.PhoneNumber);
             setEmail(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']);
+            console.log(token);
         }
     }, []);
 
@@ -89,14 +90,14 @@ const Profile = () => {
                     {/* Personal Info */}
                     <div className="col-md-4">
                         <div className="card position-relative">
-                            <div className="card-body text-center p-5" style={{ height: "400px" }}>
+                            <div className="card-body text-center p-5" style={{ height: "450px" }}>
                                 <Link to="/updatedUser">
                                     <FaEdit size={20} className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
                                 </Link>
                                 <img src={avatar} alt="Profile" className="img-fluid rounded-circle mb-3" />
                                 <h4 className="card-title text-main">{name}</h4>
                                 <p className="card-text">{email}</p>
-                                <p className="card-text">{phone}</p>
+                                <p className="card-text">{phoneNumber}</p>
                             </div>
                         </div>
                     </div>
