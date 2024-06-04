@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Puff } from 'react-loader-spinner';
 import { API_BASE_URL } from '../../config';
@@ -8,14 +7,7 @@ import { useParams } from 'react-router-dom';
 
 
 export default function NurseInfo() {
-    const [activeTab, setActiveTab] = useState('reviews');
     const { id } = useParams()
-
-
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
-
 
     function getNurseInfo() {
         return axios.get(`${API_BASE_URL}/api/Nurse/${id}`)
@@ -57,7 +49,7 @@ export default function NurseInfo() {
         <div className="container  bg-light border rounded" style={{ marginTop: "100px" }} >
             <div className="row">
                 <div className="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
-                    <img className=" w-75 w-md-25 mt-3 border rounded-circle" src={data.data.picUrl} alt="Nurse Image" />
+                    <img className=" w-75 w-md-25 mt-3 border rounded-circle" src={data.data.picUrl} alt="Nurse" />
                 </div>
                 <div className="col-sm-12 col-md-6 p-5">
                     <h3 className="card-title text-main py-2">Nurse Information</h3>

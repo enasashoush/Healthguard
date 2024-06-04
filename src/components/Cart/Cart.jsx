@@ -13,7 +13,6 @@ export default function Cart() {
     async function incremunt(itemId, currentQuantity) {
         const count = currentQuantity + 1;
         const res = await updateItem(itemId, count);
-        console.log("res", res)
         if (res) {
             toast.success("Product count incremented");
         } else {

@@ -1,106 +1,3 @@
-// import React, { useContext } from 'react'
-// import  axios  from 'axios';
-// import { CartContext } from '../../context/cartContext';
-// import { toast } from 'react-hot-toast';
-// import { Helmet } from 'react-helmet';
-// import { API_BASE_URL } from '../../config';
-
-// export default function Payment(Basketid) {
-//   const{cartId,setCartProduct,setTotalCartProduct,setNumOfCartItem}=  useContext(CartContext)
-//    async function confirmPayment(deliveryMethodId) {
-//     const phoneValue = document.querySelector("#phone").value;
-// const cityValue = document.querySelector("#city").value;
-// const detailsValue = document.querySelector("#details").value;
-
-// const shippingAddress = {
-//     "fName": "", // Include first name if available
-//     "lName": "", // Include last name if available
-//     "street": detailsValue,
-//     "city": cityValue,
-//     "country": cityValue // Assuming country is the same as city
-// };
-
-// try {
-//     const { data } = await axios.post(`${API_BASE_URL}/api/Orders/${Basketid}`, {
-//         "deliveryMethodId": deliveryMethodId,
-//         "shipToAddress": shippingAddress
-//     }, {
-//         headers: { "Authorization": `Bearer ${localStorage.getItem("tkn")}` }
-//     });
-
-//     if (data.status === "success") {
-//         toast.success("Order is Successfully");
-//         setCartProduct([]);
-//         setNumOfCartItem(0);
-//         setTotalCartProduct(0);
-//     } else {
-//         toast.error("Error occurred");
-//     }
-
-//     console.log(data);
-//     return data;
-// } catch (e) {
-//     console.error("Error:", e);
-// }
-
-//     }
-//     async function confirmOnlinePayment() {
-//         const phoneValue=   document.querySelector("#phone").value;
-//            const cityValue=document.querySelector("#city").value;
-//           const detailsValue= document.querySelector("#details").value;
-//           const shippingAddress={
-//            "shippingAddress":{
-//                "details":detailsValue,
-//                "phone":phoneValue,
-//                "city":cityValue
-//            }
-//           }
-//           try{
-//            const{data}=await axios.post(`${API_BASE_URL}/api/Payments/webhook`,shippingAddress,
-//            {
-//                headers:{token:localStorage.getItem("tkn")},
-//                params:{url:"https://localhost:3000"}
-//            })
-//             window.open(data.session.url,"_blank");
-//           } 
-//           catch(e){
-//            console.log("error",e)
-//           }
-//        }
-//   return <>
-//   <Helmet>
-//     <title>Payment</title>
-//   </Helmet>
-//   <style>{`
-//         body {
-//           background: linear-gradient(to top, #072E33, #009578); 
-//           margin: 0;
-//           padding: 0; 
-//           color:#77fce1
-//         }
-//       `}</style>
-//   <div className="container pt-5 mt-5">
-//     <form>
-//         <label htmlFor=''>
-//             Phone :
-//         </label>
-//         <input type='tel' id='phone' placeholder='Phone Number' className='mb-3 form-control login-inputt'>
-//         </input>
-//         <label htmlFor=''>
-//             City :
-//         </label>
-//         <input type='text' id='city' placeholder='City' className='mb-3 form-control login-inputt'>
-//         </input>
-//         <label htmlFor=''>
-//            Details :
-//         </label>
-//         <textarea type='text' id='details' placeholder='Details' className='mb-3 form-control login-inputt'>
-//         </textarea>
-//         <button type='button' onClick={confirmPayment} className='btn btn-dark '>Confirm Cash Payment</button>
-//         <button type='button' onClick={confirmOnlinePayment} className='mx-4 btn btn-dark '>Confirm Online Payment</button>
-//     </form>
-//     </div></>
-// }
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { CartContext } from '../../context/cartContext';
@@ -110,7 +7,7 @@ import { API_BASE_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
 
 export default function Payment() {
-  const { cartId, setCartProduct, setTotalCartProduct, numOfCartItem, setNumOfCartItem } = useContext(CartContext);
+  const { cartId, setCartProduct, setTotalCartProduct, setNumOfCartItem } = useContext(CartContext);
   const [deliveryMethods, setDeliveryMethods] = useState([]);
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
 
@@ -120,7 +17,6 @@ export default function Payment() {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/Orders/DeliveryMethods`);
         setDeliveryMethods(response.data);
-        console.log("iio",response);
       } catch (error) {
         console.error('Error fetching delivery methods:', error);
       }
@@ -132,13 +28,10 @@ export default function Payment() {
   const navigate = useNavigate();
 
 async function confirmPayment() {
-  const phoneValue = document.querySelector("#phone").value;
   const cityValue = document.querySelector("#city").value;
-  const detailsValue = document.querySelector("#details").value;
   const fName = document.querySelector("#f-name").value;
   const lName = document.querySelector("#l-name").value;
   const streetValue = document.querySelector("#street-address").value;
- // Using useNavigate instead of useHistory
 
   const shippingAddress = {
     fName: fName,
@@ -159,14 +52,12 @@ async function confirmPayment() {
       setCartProduct([]);
       setNumOfCartItem(0);
       setTotalCartProduct(0);
-      // After successful payment, navigate to the home component
       navigate('/home');
     }
-    console.log(data);
     return data;
   } catch (e) {
     console.error("Error:", e);
-    toast.error("There are no items in the cart");
+    toast.error("Please, Fill The Form Data");
   }
 }
 
@@ -226,8 +117,7 @@ async function confirmPayment() {
             <label htmlFor="details">Details:</label>
             <textarea id="details" placeholder="Details" className="form-control mb-3 login-inputt"></textarea>
           </div>
-          <button type="button" onClick={confirmPayment} className="btn btn-dark">Confirm Cash Payment</button>
-          <button type="button" className="mx-4 btn btn-dark">Confirm Online Payment</button>
+          <button type="button" onClick={confirmPayment} className="btn btn-dark">Confirm Order</button>
         </form>
       </div>
     </>

@@ -17,7 +17,7 @@ export default function About() {
           padding: 0; 
         }
       `}</style>
-        <section class="about-section container mt-5">
+        <section class="about-section container mt-5 pt-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">

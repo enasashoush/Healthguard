@@ -15,7 +15,6 @@ export default function AllReservation() {
             const { data } = await axios.get(`${API_BASE_URL}/api/Nurse/my-appointments`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
             });
-            console.log("reserv data:", data);
             return data;
         } catch (error) {
             console.error("Error fetching orders:", error);
@@ -28,11 +27,9 @@ export default function AllReservation() {
             const { data } = await axios.delete(`${API_BASE_URL}/api/Nurse/cancel-appointment/${appointmentId}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
             });
-            console.log("API response data:", data);
             toast.success("Your Reservation Deleted Successfully ");
             navigate("/account")
 
-            // Refetch the reservation data after successful deletion
             await QueryClient.refetchQueries('userReservation');
             return data;
         } catch (error) {
@@ -73,7 +70,7 @@ export default function AllReservation() {
         );
     }
 
-    if (data.length === 0) { // Check if data array is empty
+    if (data.length === 0) { 
         return (
             <>
                 <Helmet>

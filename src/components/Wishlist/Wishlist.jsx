@@ -17,7 +17,7 @@ export default function WishList() {
         return updatedStatus;
       });
     } else {
-      toast.error("Error in Delete Element");
+      toast.error("Error in Delete Element"); 
     }
   }
  

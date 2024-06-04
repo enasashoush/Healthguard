@@ -16,21 +16,20 @@ export default function Navbar() {
     }
 
     useEffect(() => {
+        const handleScroll = () => {
+          const shouldScroll = window.scrollY > 0;
+          if (shouldScroll && !scrolled) {
+            setScrolled(true);
+          } else if (!shouldScroll && scrolled) {
+            setScrolled(false);
+          }
+        };
+      
         window.addEventListener('scroll', handleScroll);
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+          window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
-
-    const handleScroll = () => {
-        const shouldScroll = window.scrollY > 0;
-        if (shouldScroll && !scrolled) {
-            setScrolled(true);
-        } 
-        else {
-            setScrolled(false);
-        }
-    };
+      }, [scrolled]);
 
     return <>
         <nav className={`navbar navbar-expand-lg navbar-dark ${scrolled ? 'bg-main' : 'bg-white'

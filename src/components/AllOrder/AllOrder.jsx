@@ -15,7 +15,6 @@ export default function AllOrders() {
             const { data } = await axios.get(`${API_BASE_URL}/api/Orders/user-orders`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
             });
-            console.log("API response data:", data);
             return data;
         } catch (error) {
             console.error("Error fetching orders:", error);
@@ -56,7 +55,7 @@ export default function AllOrders() {
         );
     }
 
-    if (data.length === 0) { // Check if data array is empty
+    if (data.length === 0) { 
         return (
             <>
                 <Helmet>

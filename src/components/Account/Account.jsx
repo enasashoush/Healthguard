@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { FaEdit, FaPlus, FaShoppingBag, FaCalendar } from 'react-icons/fa';
+import { FaEdit, FaShoppingBag, FaCalendar } from 'react-icons/fa';
 import { Puff } from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode'; // Import jwtDecode properly
-import avatar from '../../image/avatar.jpeg'; // Import the default image
+import {jwtDecode} from 'jwt-decode';
+import avatar from '../../image/avatar.jpeg'; 
 import { API_BASE_URL } from '../../config';
 import axios from 'axios';
 import { useQuery } from 'react-query';
@@ -18,11 +18,9 @@ const Profile = () => {
         const token = localStorage.getItem("tkn");
         if (token) {
             const decoded = jwtDecode(token);
-            console.log(decoded);
             setName(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
             setPhoneNumber(decoded.PhoneNumber);
             setEmail(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']);
-            console.log(token);
         }
     }, []);
 
@@ -45,7 +43,6 @@ const Profile = () => {
             headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
         });
         const reservations = response.data;
-        // Sort in descending order based on booking date to get the latest reservation
         const latestReservation = reservations.sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate))[0];
         return latestReservation;
     } catch (error) {
@@ -90,8 +87,8 @@ const Profile = () => {
                     {/* Personal Info */}
                     <div className="col-md-4">
                         <div className="card position-relative">
-                            <div className="card-body text-center p-5" style={{ height: "450px" }}>
-                                <Link to="/updatedUser">
+                            <div className="card-body text-center p-5" style={{ height: "50 0px" }}>
+                                <Link to="/updatedAccount">
                                     <FaEdit size={20} className="position-absolute top-0 end-0 m-2" style={{ color: '#0F969C' }} />
                                 </Link>
                                 <img src={avatar} alt="Profile" className="img-fluid rounded-circle mb-3" />
@@ -123,9 +120,9 @@ const Profile = () => {
                                     )}
                                 </div>
                                 {latestOrder && latestOrder.items && latestOrder.items.length > 0 && latestOrder.items[0].pictureUrl ? (
-                                    <img src={latestOrder.items[0].pictureUrl} alt="Order Image" className="img-fluid rounded-circle" style={{ width: '100px', height: '100px' }} />
+                                    <img src={latestOrder.items[0].pictureUrl} alt="Order" className="img-fluid rounded-circle" style={{ width: '100px', height: '100px' }} />
                                 ) : (
-                                    <img src={avatar} alt="Default Image" className="img-fluid rounded-circle" style={{ width: '100px', height: '100px' }} />
+                                    <img src={avatar} alt="Default" className="img-fluid rounded-circle" style={{ width: '100px', height: '100px' }} />
                                 )}
                             </div>
                         </div>

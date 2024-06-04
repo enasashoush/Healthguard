@@ -21,7 +21,7 @@ export function CartContextProvider({children}) {
                 headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
             }
         );
-        const data = response.data;
+        const data = response.data; 
         userCart(); 
         return data;
     } catch (e) {
@@ -78,7 +78,6 @@ async function deleteItem(itemId) {
             ,{
                 headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` } 
             })
-            console.log("2")
             setNumOfCartItem(data.totalQuantity);
             setTotalCartProduct(data.totalPrice);
             setCartProduct(data.basket.items);

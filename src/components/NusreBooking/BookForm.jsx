@@ -27,14 +27,15 @@ export default function BookForm() {
           headers: { Authorization: `Bearer ${localStorage.getItem("tkn")}` }
         }
       );
-      if (data && data.message) {
+
+
+      if (data.message === "Appointment booked successfully.") {
         toast.success("Your Reservation Is Sent Successfully ");
         setSuccess(data.message);
         setTimeout(() => {
           navigate(`/home`);
         }, 1000);
       }
-      console.log("response", data);
       return data;
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data.errors) {
@@ -86,10 +87,12 @@ export default function BookForm() {
       <style>{`
         body {
           background: linear-gradient(to top, #072E33, #009578);
+        
         }
+
       `}</style>
 
-      <div className="container" style={{ marginTop: "80px" }}>
+      <div className="container reg-select" style={{ marginTop: "80px" }}>
         <form className="w-75 mx-auto py-5 px-5" onSubmit={formik.handleSubmit}>
           {errMsg && <div className="alert alert-danger">{errMsg}</div>}
           {success && <div className="alert alert-info">{success}</div>}

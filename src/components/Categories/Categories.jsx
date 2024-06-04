@@ -3,16 +3,14 @@ import axios from 'axios';
 import { Puff } from 'react-loader-spinner';
 import './categories.css'
 import { useQuery } from 'react-query';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
 
 export default function Categories() {
 
     async function getAllCategories() {
         try {
-            console.log("Fetching categories...");
             const response = await axios.get(`${API_BASE_URL}/api/Products/categories`);
-            console.log("Response data:", response.data);
             return response.data;
         } catch (error) {
             console.error("Error fetching categories:", error);

@@ -41,7 +41,7 @@ export default function Register() {
       }
     } catch (err) {
       if (err.response.status === 400 && err.response.data.errors) {
-        setEerMsg(err.response.data.errors[0]); // Assuming the error message is a string
+        setEerMsg(err.response.data.errors[0]); 
       } else {
         console.error("Error:", err);
       }

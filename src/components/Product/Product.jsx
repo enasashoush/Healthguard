@@ -9,18 +9,17 @@ import toast from 'react-hot-toast';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart as SolidHeart } from 'react-icons/fa';
 import { API_BASE_URL } from '../../config';
-import './product.css' 
- 
+import './product.css';
+
 export default function Product() {
-    const { addProduct, addProductToWishList, deleteItemFromWish, wishListStatus, setWishListStatus } = useContext(CartContext)
+    const { addProduct, addProductToWishList, deleteItemFromWish, wishListStatus, setWishListStatus } = useContext(CartContext);
     const [search, setSearch] = useState('');
     
     async function addProductToCart(productId) {
         try {
             const res = await addProduct(productId);
-            console.log("res", res);
             if (res ) {
-                toast.success("Product Added Successeded");
+                toast.success("Product Added Successfully");
             } else {
                 toast.error("Error occurred while adding the product to the cart");
             }
@@ -29,7 +28,6 @@ export default function Product() {
             toast.error("Error occurred while adding the product to the cart");
         }
     }
-    
     
     async function ProductWishList(id) {
         if (!id) {
@@ -64,18 +62,15 @@ export default function Product() {
         }
     }
     
-    
     const getAllProducts = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/api/Products`);
-            console.log( "respone",response);
             return response.data;
         } catch (error) {
             console.error('Error fetching data:', error);
             throw new Error('Error fetching data');
         }
     };
-    
 
     const handleSearchInputChange = (event) => {
         setSearch(event.target.value);
@@ -97,6 +92,10 @@ export default function Product() {
         </div>
     }
 
+    const filteredProducts = data?.data?.filter(product => {
+        return product.name.toLowerCase().includes(search.toLowerCase()) || product.category.toLowerCase().includes(search.toLowerCase());
+    });
+
     return <>
         <Helmet>
             <title>Products</title>
@@ -117,7 +116,7 @@ export default function Product() {
         </div>
         
         <div className="row row-cols-2 row-cols-sm-3  row-cols-md-4 row-cols-lg-5 g-3 container-fluid mt-5">
-            {data?.data?.map(function (product, idx) {
+            {filteredProducts.map(function (product, idx) {
                 return <div key={idx} className="col">
                     <div className="card h-100 product">
                         <Link className='text-decoration-none' to={`/productDetails/${product.id}/${product.category}`}>

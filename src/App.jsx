@@ -17,16 +17,14 @@ import Categories from './components/Categories/Categories'
 import { CartContextProvider } from './context/cartContext';
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/authContext'
-// import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { Offline } from 'react-detect-offline'
 import NurseInfo from './components/NursingInfo/NursingInfo';
-import ForgetPassword from './components/ForgetPassword/ForgetPass'
 import NotFound from './components/notFound/notfound'
-import ResetPassword from './components/ForgetPassword/resetPass'
 import BookForm from './components/NusreBooking/BookForm';
 import AllOrders from './components/AllOrder/AllOrder';
 import Payment from './components/Payment/Payment';
 import AllReservation from './components/AllReservstion/AllReservasion'
+import UpdateAccount from './components/updatedAccount/updatedAccount'
 
 const router = createBrowserRouter([
   {
@@ -45,8 +43,7 @@ const router = createBrowserRouter([
       { path: 'cart', element: <Cart /> },
       { path: 'nursing', element: <Nursing /> },
       { path: 'nurseInfo/:id', element: <NurseInfo /> },
-      { path: "forgot-password", element: <ForgetPassword /> },
-      { path: "resetPassword", element: <ResetPassword /> },
+      { path: "updatedAccount", element: <UpdateAccount/> },
       {path:"allOrders",element:<AllOrders/>},
       {path:"allReservation",element:<AllReservation/>},
       {path:"payment/:id",element:<Payment/>},

@@ -10,8 +10,7 @@ export default function Nursing() {
 
     const getAllNurses = async () => {
         try {
-            const { data } = await axios.get(`${API_BASE_URL}/api/Nurse`);
-            console.log("response", data);
+            const { data } = await axios.get(`${API_BASE_URL}/api/Nurse/All-Nurses`);
             return data;
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -53,20 +52,20 @@ export default function Nursing() {
                     padding: 0; 
                 }
             `}</style>
-            <div className="container mt-5">
-                <div className="row">
+            <div className="container mt-5 pt-4">
+                <div className="row mt-5 ">
                     <div className="col-md-8 offset-md-2">
                         {data?.nurses?.map((nurse, idx) => (
                             <div key={idx} className="doctor-card d-flex justify-content-center align-items-center">
                                 <Link className='d-flex text-decoration-none' to={`/nurseInfo/${nurse.id}`}>
-                                    <img src={nurse.picUrl} alt="Doctor Image" className="doctor-image" />
+                                    <img src={nurse.picUrl} alt="Doctor" className="doctor-image" />
                                     <div>
                                         <h3 className="doctor-name text-main">{nurse.nurseName}</h3>
                                         <p className="doctor-location text-dark">
                                         <i className="fa-solid fa-location-dot logo"></i> Hospital: {nurse.hospital.split(',')[0]}
                                         </p>
                                         <p className="doctor-available-time text-dark">
-                                            <i className="fa-regular fa-clock logo"></i> Available Time: Monday - Friday, 9:00 AM - 5:00 PM
+                                            <i className="fa-regular fa-clock logo"></i> Specialty :{nurse.specialty}
                                         </p>
                                         <p className="doctor-fees text-dark">
                                             <i className="fa-solid fa-money-bill-wave logo"></i> Consultation Fees: {nurse.price}

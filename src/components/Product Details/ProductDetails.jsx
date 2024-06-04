@@ -13,7 +13,7 @@ import { API_BASE_URL } from '../../config';
 export default function ProductDetails() {
     const { addProduct, addProductToWishList, deleteItemFromWish, wishListStatus, setWishListStatus } = useContext(CartContext)
     const [cartLooder, setCartLooder] = useState(false)
-    const [activeTab, setActiveTab] = useState('description');
+    
     //  fucation that call add product to cart funcation from cart context 
     async function addProductToCart(productId) {
         setCartLooder(true)
@@ -56,9 +56,7 @@ export default function ProductDetails() {
             toast.error("An error occurred");
         }
     }
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
+
     const { id } = useParams()
     //get product by id from api 
     function getProductDetails() {
