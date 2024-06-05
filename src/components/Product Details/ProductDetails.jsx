@@ -120,7 +120,7 @@ export default function ProductDetails() {
                         )}</i></Link>
                     </div>
                     <div className='d-flex justify-content-between'>
-                        <p className='logo'>{data.data.price} </p>
+                        <p className='logo'>{data.data.price} EGP</p>
                         <span> {data.data.rate} <i className="fa-solid fa-star text-warning"></i></span>
                     </div>
                     <button onClick={() => addProductToCart(id)} className='btn btn-outline-primary w-100 py-2 mt-5'>

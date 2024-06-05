@@ -106,7 +106,7 @@ export default function Cart() {
 
                     </div>
                     <div className="d-flex justify-content-between mt-3">
-                        <h5>Total price : <span className='logo'>{totalCartProduct}</span></h5>
+                        <h5>Total price : <span className='logo'>{totalCartProduct} EGP</span></h5>
                         <h5>Total number of items : <span className='logo'>{numOfCartItem}</span></h5>
                     </div>
                 </div>
@@ -119,7 +119,7 @@ export default function Cart() {
                         </div>
                         <div className="col-md-8">
                             <h3> {product.productName.split(" ").slice(0, 2).join(" ")}</h3>
-                            <h3>{product.price}</h3>
+                            <h3 className='logo'>{product.price} EGP</h3>
                             <button onClick={() => { delElement(product.id) }} className='btn btn-outline-danger '>Remove</button>
                         </div>
                         <div className="col-md-2">

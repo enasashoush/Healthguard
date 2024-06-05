@@ -13,6 +13,6 @@
 
 .product:hover {
 
-  box-shadow: 3px 3px 10px 2px #0359214b;
+  box-shadow: 3px 3px 10px 10px #0000004b;
   transform: translateZ(20px);
 }

@@ -56,7 +56,7 @@ export default function Nursing() {
                 <div className="row mt-5 ">
                     <div className="col-md-8 offset-md-2">
                         {data?.nurses?.map((nurse, idx) => (
-                            <div key={idx} className="doctor-card d-flex justify-content-center align-items-center">
+                            <div key={idx} className="doctor-card d-flex justify-content-around align-items-center">
                                 <Link className='d-flex text-decoration-none' to={`/nurseInfo/${nurse.id}`}>
                                     <img src={nurse.picUrl} alt="Doctor" className="doctor-image" />
                                     <div>
@@ -68,7 +68,7 @@ export default function Nursing() {
                                             <i className="fa-regular fa-clock logo"></i> Specialty :{nurse.specialty}
                                         </p>
                                         <p className="doctor-fees text-dark">
-                                            <i className="fa-solid fa-money-bill-wave logo"></i> Consultation Fees: {nurse.price}
+                                            <i className="fa-solid fa-money-bill-wave logo"></i> Consultation Fees: {nurse.price} EGP
                                         </p>
                                     </div>
                                 </Link>

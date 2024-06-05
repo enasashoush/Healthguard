@@ -45,11 +45,14 @@ export default function NurseInfo() {
           margin: 0;
           padding: 0; 
         }
+        .rounded-circle {
+            border-radius: 50%; !important
+        }
       `}</style>
-        <div className="container  bg-light border rounded" style={{ marginTop: "100px" }} >
+        <div className="container bg-light border rounded" style={{ marginTop: "100px" }} >
             <div className="row">
                 <div className="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
-                    <img className=" w-75 w-md-25 mt-3 border rounded-circle" src={data.data.picUrl} alt="Nurse" />
+                    <img className=" w-75 w-md-50 mt-3 border"  src={data.data.picUrl} alt="Nurse" />
                 </div>
                 <div className="col-sm-12 col-md-6 p-5">
                     <h3 className="card-title text-main py-2">Nurse Information</h3>
@@ -57,7 +60,7 @@ export default function NurseInfo() {
                     <p className="card-text"><strong className='logo'>Specialization:</strong> {data.data.description} </p>
                     <p className="card-text"><strong className='logo'>Specialty:</strong> {data.data.specialty}</p>
                     <p className="card-text"><strong className='logo'>Hospital:</strong> {data.data.hospital}</p>
-                    <p className="card-text"><strong className='logo'>Fees:</strong> {data.data.price} </p>
+                    <p className="card-text"><strong className='logo'>Fees:</strong> {data.data.price} EGP</p>
                 </div>
             </div>
             <div className="row">

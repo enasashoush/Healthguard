@@ -130,7 +130,7 @@ export default function CategoryDetails() {
                                     <h5 className="card-title text-dark">{product.name.split(' ').slice(0 - 2).join(' ')}</h5>
                                 </div>
                                 <div className="d-flex justify-content-around">
-                                    <p className='logo'>{product.price}</p>
+                                    <p className='logo'>{product.price} EGP</p>
                                     <p className='text-dark'> {product.rate} <i className="fa-solid fa-star text-warning"></i>  </p>
                                 </div>
                             </Link>

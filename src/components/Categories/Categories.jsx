@@ -48,7 +48,7 @@ export default function Categories() {
                 <title>Categories</title>
             </Helmet>
 
-            <div className="container pt-5">
+            <div className="container ">
                 <div className="row g-4">
                     {data?.map((category, idx) => (
                         <div key={idx} className="col-lg-4">
