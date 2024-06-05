@@ -116,7 +116,7 @@ export default function Product() {
         </div>
         
         <div className="row row-cols-2 row-cols-sm-3  row-cols-md-4 row-cols-lg-5 g-3 container-fluid mt-5">
-            {filteredProducts.map(function (product, idx) {
+            {filteredProducts?.map(function (product, idx) {
                 return <div key={idx} className="col">
                     <div className="card h-100 product">
                         <Link className='text-decoration-none' to={`/productDetails/${product.id}/${product.category}`}>
