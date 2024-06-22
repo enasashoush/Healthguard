@@ -13,7 +13,9 @@ export default function Footer() {
                         <div>
                             <h3 className="fw-bold">Get In Touch</h3>
                             <div className="col-1 border border-2 border-success "></div>
-                            <p className="text-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis dolorum dolorem soluta quidem expedita aperiam aliquid at. Totam magni ipsum suscipit amet? Autem nemo esse laboriosam ratione nobis mollitia inventore?</p>
+                            <p className="text-light"> Welcome to Health Guard, your trusted source for medical supplies tailored to special needs. 
+                            We are committed to providing quality products and services to ensure the well-being of our customers. 
+                            Whether you need medical supplies or wish to schedule an appointment with a nurse, we are here to help.</p>
                             <div className="text-light">
                                 <p><i className="logo fa-solid fa-mobile-screen-button"></i>  0123 456 7890 </p>
                                 <p><i className="logo fa-regular fa-envelope"></i> healthguard@gmail.com </p>

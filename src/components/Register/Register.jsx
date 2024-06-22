@@ -11,11 +11,8 @@ export default function Register() {
   const [success, setSuccess] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const [selectedArea, setSelectedArea] = useState('');
 
-  const handleAreaChange = (e) => {
-    setSelectedArea(e.target.value);
-  };
+ 
 
   let user = {
     displayName: "",
@@ -26,7 +23,6 @@ export default function Register() {
     areas: ""
   }
 
-  const areas = ['Cairo', 'Port Said', 'Alexandria'];
 
   async function sendData(values) {
     setEerMsg(null);
@@ -72,7 +68,7 @@ export default function Register() {
       }
 
       // Validate password
-      if (!values.password || values.password.length < 6 || values.password.length > 12) {
+      if (!values.password || values.password.length < 6 || values.password.length > 20) {
         errors.password = "Password must have Lowercase , Uppercase , Sepical character and Numbers";
       }
 
@@ -123,20 +119,7 @@ export default function Register() {
                 <input onBlur={formikObj.handleBlur} value={formikObj.values.rePassword} onChange={formikObj.handleChange} id='rePassword' type='password' placeholder='Confirm password' className='reg-pp reg-inputt form-control mb-3'></input>
                 {formikObj.errors.rePassword && formikObj.touched.rePassword && <div className='alert alert-info'>{formikObj.errors.rePassword}</div>}
 
-                <label htmlFor='area'>Area:</label>
-                <select
-                  id='area'
-                  value={selectedArea}
-                  onChange={handleAreaChange}
-                  className='reg-select reg-inputt form-control mb-3'
-                >
-                  <option value=''>Select Area</option>
-                  {areas.map((area, index) => (
-                    <option key={index} value={area}>
-                      {area}
-                    </option>
-                  ))}
-                </select>
+                
                 <button disabled={!formikObj.dirty || !formikObj.isValid || isLoading} type='submit' className='btn btn-dark '>
                   {isLoading ? <FallingLines
                     color="#072E33"
