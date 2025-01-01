@@ -2,13 +2,8 @@ import { Component } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Home from './components/Home/Home'
-import Product from './components/Product/Product'
 import Layout from './components/Layout/Layout'
-import Account from './components/Account/Account'
 import Wishlist from './components/Wishlist/Wishlist';
-import About from './components/About/About'
-import Cart from './components/Cart/Cart'
-import Nursing from './components/Nursing/Nursing';
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 import ProductDetails from './components/Product Details/ProductDetails';
@@ -18,13 +13,7 @@ import { CartContextProvider } from './context/cartContext';
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/authContext'
 import { Offline } from 'react-detect-offline'
-import NurseInfo from './components/NursingInfo/NursingInfo';
 import NotFound from './components/notFound/notfound'
-import BookForm from './components/NusreBooking/BookForm';
-import AllOrders from './components/AllOrder/AllOrder';
-import Payment from './components/Payment/Payment';
-import AllReservation from './components/AllReservstion/AllReservasion'
-import UpdateAccount from './components/updatedAccount/updatedAccount'
 
 const router = createBrowserRouter([
   {
@@ -33,25 +22,12 @@ const router = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
-      { path: 'products', element: <Product /> },
       { path: 'productDetails/:id/:category', element: <ProductDetails /> },
       { path: 'categories', element: <Categories /> },
       { path: 'categoryDetails/:id', element: <CategoryDetails /> },
       { path: 'wishlist', element: <Wishlist /> },
-      { path: 'account', element: <Account /> },
-      { path: 'about', element: <About /> },
-      { path: 'cart', element: <Cart /> },
-      { path: 'nursing', element: <Nursing /> },
-      { path: 'nurseInfo/:id', element: <NurseInfo /> },
-      { path: "updatedAccount", element: <UpdateAccount/> },
-      {path:"allOrders",element:<AllOrders/>},
-      {path:"allReservation",element:<AllReservation/>},
-      {path:"payment/:id",element:<Payment/>},
-      { path: '*', element: <NotFound /> },
-      { path: "bookForm/:id", element: <BookForm /> },
-
-
-    ]
+              { path: '*', element: <NotFound /> },
+       ]
   }
 
 
